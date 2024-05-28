@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:admin@localhost:3306/prisma"
+}
+
+model User {
+  id         String   @id @default(uuid())
+  email      String   @unique
+  password   String?
+  age        String?
+  username   String?
+  address    String?
+  avatar     String?
+  createTime DateTime @default(now())
+  updateTime DateTime @updatedAt
+  role       String   @default("user")
+
+  @@map("user")
+}
+
+// 角色
+model Role {
+  id          Int          @id @default(autoincrement())
+  name        String
+  key         String       @unique
+  sort        Int          @default(1)
+  remark      String?
+  @@map("role")
+}
+
+
+model EmailSendHistory {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  type      String?
+  code      String
+  expiresAt String
+
+  @@map("email_send_history")
+}
