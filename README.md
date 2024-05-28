@@ -59,8 +59,6 @@ bashCopy code# 前端
 cd client
 npm install
 
-# 后端
-
 cd server
 npm install
 运行开发环境
@@ -76,7 +74,6 @@ bashCopy code# 前端
 npm run build
 ```
 
-# 后端
 
 npm run build
 功能特性
