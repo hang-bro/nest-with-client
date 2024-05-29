@@ -76,7 +76,7 @@ type IProTableColumn = InstanceType<typeof ElTableColumn>['$props'] & {
 
 declare global {
   type ITableColumnDefaultSlotProps = {
-    row: Record<string, any>
+    row: any
     $index: number
     store?: Record<string, any>
     expanded?: boolean

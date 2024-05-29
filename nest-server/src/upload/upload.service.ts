@@ -1,26 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUploadDto } from './dto/create-upload.dto';
 import { UpdateUploadDto } from './dto/update-upload.dto';
 
 @Injectable()
 export class UploadService {
-  create(createUploadDto: CreateUploadDto) {
-    return 'This action adds a new upload';
-  }
+  uploadFile(file) {
+    console.log(`file ==>`,file);
+    const allowedMimeTypes = ['image/jpeg', 'image/png']; // 设置允许上传的文件类型
 
-  findAll() {
-    return `This action returns all upload`;
-  }
+    if (!allowedMimeTypes.includes(file.mimetype)) {
+      throw new BadRequestException('文件格式不正确');
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} upload`;
-  }
-
-  update(id: number, updateUploadDto: UpdateUploadDto) {
-    return `This action updates a #${id} upload`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} upload`;
+    return `${process.env.SERVER_HOST}:${process.env.SERVER_PORT}/static/upload/images/${file.filename}`;
   }
 }

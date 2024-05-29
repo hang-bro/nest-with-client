@@ -62,7 +62,11 @@ export type IHttp = {
   patch: <T extends any = any>(url: string, params?: object, config?: IRequestConfig) => Promise<IResponse<T>>
   post: <T extends any = any>(url: string, params?: object, config?: IRequestConfig) => Promise<IResponse<T>>
   put: <T extends any = any>(url: string, params?: object, config?: IRequestConfig) => Promise<IResponse<T>>
-  delete: <T extends any = any>(url: string, params?: object, config?: IRequestConfig) => Promise<IResponse<T>>
+  delete: <T extends any = any>(
+    url: string,
+    params?: object,
+    config?: IRequestConfig,
+  ) => Promise<IResponse<T>>
   upload: <T extends any = any>(url: string, data?: object, config?: IRequestConfig) => Promise<IResponse<T>>
 }
 
@@ -107,7 +111,7 @@ export const http: IHttp = {}
           instance
             .post(url, params, config)
             .then((res) => resolve(res.data))
-            .catch((e) => reject(e))
+            .catch((err) => reject(err))
         })
       })
     default:

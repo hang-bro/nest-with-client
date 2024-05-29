@@ -23,7 +23,7 @@ export class UploadController {
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   upload(@UploadedFile() file) {
-    return `${process.env.SERVER_HOST}:${process.env.SERVER_PORT}/static/upload/images/${file.filename}`;
+    return this.uploadService.uploadFile(file);
   }
 
   @Public()
