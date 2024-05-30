@@ -29,4 +29,7 @@ export class CreateUserDto {
 
   @ApiProperty()
   id?: string;
+
+  createTime?: string;
+  updateTime?: string;
 }

@@ -3,6 +3,7 @@ import {
   Body,
   ConflictException,
   Injectable,
+  InternalServerErrorException,
   ValidationPipe,
 } from '@nestjs/common';
 import { CryptoService } from 'src/crypto/crypto.service';
@@ -101,10 +102,17 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    const { password, ...user } = createUserDto;
-    return this.prismaService.user.create({
-      data: { ...user, password: await this.cryptoService.encrypt(password) },
-    });
+    const { password, id, createTime, updateTime, ...user } = createUserDto;
+    try {
+      await this.prismaService.user.create({
+        data: {
+          ...user,
+          password: await this.cryptoService.encrypt(password),
+        },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   async findAll() {
