@@ -13,6 +13,13 @@
           删除
         </el-button>
       </template>
+      <template #avatar="{ row, viewImg }">
+        <el-image
+          class="w-10 aspect-square cursor-pointer"
+          :src="row.avatar"
+          @click="viewImg({ url: row.avatar })"
+        />
+      </template>
       <template #option="{ row, handleDelete }">
         <el-button @click="handleDelete(row.id)" link type="danger">删除</el-button>
         <el-button @click="handleEdit(row)" link type="warning">编辑</el-button>
@@ -23,7 +30,7 @@
         </el-popconfirm>
       </template>
     </ProTable>
-    <AddAndEditDialog v-model:show="addAndEditDialog.show" v-bind="addAndEditDialog" @getList="getList" />
+    <AddAndEditDialog @getList="getList" v-model:show="addAndEditDialog.show" v-bind="addAndEditDialog" />
   </main>
 </template>
 <script lang="ts" setup>
@@ -51,10 +58,10 @@ const proTableProps = reactive<IProTableProps>({
   columns: [
     { type: 'selection' },
     { type: 'index', label: '序号', width: 60 },
-    { prop: 'id', label: 'ID', useCopy: true, width: 180 },
-    { prop: 'username', label: '用户名' },
+    { prop: 'id', label: 'ID', useCopy: true, width: 220 },
+    { prop: 'username', label: '用户名', useCopy: true },
     { prop: 'avatar', label: '头像', useSlot: true },
-    { prop: 'email', label: '邮箱' },
+    { prop: 'email', label: '邮箱', useCopy: true },
     { prop: 'address', label: '地址' },
     { prop: 'role', label: '角色' },
     { label: '操作', prop: 'option', useSlot: true, width: 200, fixed: 'right' },
@@ -73,6 +80,7 @@ const resetPwd = (userId: string) => {
 
 const handleAdd = () => {
   addAndEditDialog.type = 'add'
+  addAndEditDialog.formData = {}
   addAndEditDialog.show = true
 }
 

@@ -94,7 +94,7 @@ instance.interceptors.response.use(
     return { data: res.data } as AxiosResponse
   },
   async (e: AxiosError) => {
-    console.log(e)
+    // console.log(e)
 
     await end()
     // 判断是否服务器端返回的错误
@@ -126,7 +126,7 @@ instance.interceptors.response.use(
       ElNotification.error({ message: e.message })
     }
 
-    return { data: {} }
+    return Promise.reject(new Error(e.message))
   },
 )
 

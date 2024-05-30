@@ -3,8 +3,9 @@
     :modelValue="show"
     :title="title"
     :width="width"
-    :before-close="cancel"
     :close-on-click-modal="false"
+    :before-close="cancel"
+    destroy-on-close
   >
     <el-form ref="formRef" :model="form" status-icon :rules="rules" label-width="auto" class="demo-form">
       <el-form-item label="用户名" prop="username">
@@ -17,7 +18,7 @@
         <el-input v-model="form.password" autocomplete="off" />
       </el-form-item>
       <el-form-item label="头像" prop="avatar">
-        <ImageUpload :limit="2" multiple v-model="form.avatar" />
+        <ImageUpload multiple v-model="form.avatar" @update:model-value="formRef.clearValidate('avatar')" />
       </el-form-item>
       <el-form-item label="地址" prop="address">
         <el-input v-model="form.address" autocomplete="off" />
@@ -34,7 +35,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="cancel">取消</el-button>
-        <el-button type="warning" @click="resetForm(formRef)">清空</el-button>
+        <!-- <el-button type="warning" @click="resetForm(formRef)">清空</el-button> -->
         <el-button type="primary" @click="handleSubmit(formRef)"> 提交 </el-button>
       </span>
     </template>
@@ -83,13 +84,24 @@ watch(
   () => props.show,
   (show) => {
     if (show) {
-      nextTick(() => {
-        resetForm(formRef.value)
+      if (!Object.keys(props.formData).length) {
+        Object.keys(form).forEach((key) => (form[key] = null))
+      } else {
         Object.keys(props.formData).forEach((key) => {
-          form[key] = props.formData[key]
+          form[key] = props.formData[key] || null
         })
-        getRoleList()
-      })
+      }
+      nextTick(() => formRef.value.clearValidate())
+
+      // nextTick(() => {
+      //   // resetForm(formRef.value)
+      //   // Object.keys(form).forEach((key) => (form[key] = null))
+      //   // Object.keys(props.formData).forEach((key) => {
+      //   //   form[key] = props.formData[key] || null
+      //   // })
+      //   // nextTick(() => resetForm(formRef.value))
+      // })
+      getRoleList()
     }
   },
 )
@@ -120,16 +132,17 @@ const rules = reactive({
   role: useValidate.pleaseSelect,
 })
 
-const getRoleList = () => http.get('/role').then((res) => (roleList.value = res.data.data))
+const getRoleList = () => http.get('/role').then((res) => (roleList.value = res.data))
 
 const handleSubmit = (formEl: FormInstance) => {
   formEl.validate((valid) => {
     if (valid) {
       const data = JSON.parse(JSON.stringify(form))
-      const apiUrl = '/role'
+      const apiUrl = '/user'
       if (props.type == 'add') {
         http.post(apiUrl, data).then((res) => {
           ElMessage.success(res.message)
+          cancel()
           emit('getList')
         })
       }
@@ -137,6 +150,7 @@ const handleSubmit = (formEl: FormInstance) => {
       if (props.type == 'edit') {
         http.patch(`${apiUrl}/${form.id}`, data).then((res) => {
           ElMessage.success(res.message)
+          cancel()
           emit('getList')
         })
       }

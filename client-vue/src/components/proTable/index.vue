@@ -123,6 +123,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import CopyText from './components/copyText.vue'
 import SearchForm from './components/searchForm.vue'
 import ToolBar from './components/toolBar.vue'
+import viewImg from '../ViewImg'
 
 export type IProTableProps = {
   api: IProTableApi
@@ -209,6 +210,7 @@ const exposed = reactive({
   icons,
   showSearch,
   props,
+  viewImg,
 })
 </script>
 <style lang="scss" scoped>
@@ -237,6 +239,14 @@ const exposed = reactive({
 
   .text-with-copy {
     @apply flex items-center justify-center w-full;
+    &:hover {
+      // .text-with-copy__icon {
+      //   display: block;
+      // }
+      // .text-with-copy__text {
+      //   max-width: calc(100% - 25px);
+      // }
+    }
     &__text {
       @apply overflow-hidden text-ellipsis cursor-pointer whitespace-nowrap flex;
       max-width: calc(100% - 25px);

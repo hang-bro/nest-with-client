@@ -19,6 +19,8 @@
 </template>
 <script lang="ts" setup>
 import { IResponse, http } from '@/http'
+import type { FormInstance } from 'element-plus'
+
 import { uploadActions } from '@/http/axios'
 import { Plus } from '@element-plus/icons-vue'
 import { ElUpload } from 'element-plus'
@@ -65,23 +67,28 @@ const props = withDefaults(defineProps<IProps>(), {
 })
 
 const showUpload = computed(() => {
+  if (props.multiple) {
+    return fileList.value.length == props.maxNum ? 'none' : 'flex'
+  }
   return fileList.value.length == props.limit ? 'none' : 'flex'
 })
-const attrs = useAttrs()
 
-onMounted(() => {
-  const modelValue = attrs.modelValue
+
+const handleModelValue = (modelValue: any) => {
   if (!modelValue || (modelValue as string).trim() == '') {
     fileList.value = []
-    emit('update:modelValue', props.formatType == 'string' ? '' : [])
-    return
+    return emit('update:modelValue', props.formatType == 'string' ? '' : [])
   }
+
   const imgArr: string[] = modelValue?.toString()?.split(',') || []
 
   if (imgArr.length) {
     ;(fileList.value as { url: string }[]) = imgArr.map((url) => ({ url }))
   }
-})
+}
+const attrs = useAttrs()
+
+onMounted(() => handleModelValue(attrs.modelValue))
 
 const handleRemove: ElUploadProps['onRemove'] = (deleteFile, fileList) => {
   const modelValue = []
@@ -122,32 +129,36 @@ const uploadSingleFile = () => {
       const url = file.url.startsWith('http') ? file.url : (file.response as Resonse)?.data
       url && modelValue.push(url)
     })
-
-    return (
-      modelValue.length &&
+    if (modelValue.length) {
       emit('update:modelValue', props.formatType == 'string' ? modelValue.toString() : modelValue)
-    )
+    }
   }
 
   const formData = new FormData()
 
   const file = state.waitUploadList.shift()
 
+  if (!file) return
+
   formData.append('file', file.raw)
 
-  http.upload(props.action, formData).then((response) => {
-    const index = fileList.value.findIndex((item) => item.uid === file.uid)
+  http
+    .upload(props.action, formData)
+    .then((response) => {
+      const index = fileList.value.findIndex((item) => item.uid === file.uid)
 
-    if (!Object.keys(response).length) {
-      fileList.value[index].response = {}
-      fileList.value[index].status = 'fail'
-    } else {
       fileList.value[index].response = response
       fileList.value[index].status = 'success'
-    }
-
-    uploadSingleFile()
-  })
+    })
+    .catch((e) => {
+      const index = fileList.value.findIndex((item) => item.uid === file.uid)
+      fileList.value[index].response = {}
+      fileList.value[index].status = 'fail'
+      console.log(`index ==>`, index)
+      console.log(`fileList.value ==>`, fileList.value)
+      console.log(`e ==>`, e)
+    })
+    .finally(() => uploadSingleFile())
 }
 
 const handleChange: ElUploadProps['onChange'] = async (file) => {
