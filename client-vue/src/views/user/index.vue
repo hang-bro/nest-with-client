@@ -37,6 +37,7 @@
 import { http } from '@/http'
 import { ElMessage } from 'element-plus'
 import AddAndEditDialog, { IProps } from './components/addAndEditDialog.vue'
+
 const ProTableRef = ref<IProTable>()
 
 const getList = () => ProTableRef.value.getList()
@@ -46,8 +47,6 @@ const addAndEditDialog = reactive<IProps>({
   type: '',
   formData: {},
 })
-
-const state = reactive({})
 
 const proTableProps = reactive<IProTableProps>({
   api: { list: '/user/list', delete: '/user' },

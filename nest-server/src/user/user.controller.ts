@@ -76,6 +76,15 @@ export class UserController {
   }
 
   @Public()
+  @Get('emailExist')
+  @ApiOperation({
+    summary: '邮箱是否存在',
+  })
+  emailExist(@Query('email') email: string) {
+    return this.userService.emailExist(email);
+  }
+
+  @Public()
   @ApiOperation({
     summary: '用户找回密码',
   })

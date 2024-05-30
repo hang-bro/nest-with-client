@@ -7,6 +7,7 @@
     :before-close="cancel"
     destroy-on-close
   >
+    rules{{ rules.email }}
     <el-form ref="formRef" :model="form" status-icon :rules="rules" label-width="auto" class="demo-form">
       <el-form-item label="用户名" prop="username">
         <el-input v-model="form.username" autocomplete="off" />
@@ -18,7 +19,7 @@
         <el-input v-model="form.password" autocomplete="off" />
       </el-form-item>
       <el-form-item label="头像" prop="avatar">
-        <ImageUpload multiple v-model="form.avatar" @update:model-value="formRef.clearValidate('avatar')" />
+        <ImageUpload v-model="form.avatar" @update:model-value="formRef.clearValidate('avatar')" />
       </el-form-item>
       <el-form-item label="地址" prop="address">
         <el-input v-model="form.address" autocomplete="off" />
@@ -44,7 +45,7 @@
 <script lang="ts" setup>
 import type { FormInstance } from 'element-plus'
 
-import useValidate from '@/hooks/useValidate'
+import useValidate, { defineValidator } from '@/hooks/useValidate'
 import { http } from '@/http'
 
 const roleList = ref([])
@@ -91,28 +92,33 @@ watch(
           form[key] = props.formData[key] || null
         })
       }
-      nextTick(() => formRef.value.clearValidate())
+      if (props.type == 'add') {
+        rules.email = defineValidator(
+          (joi) => {
+            return joi
+              .string()
+              .email({ tlds: { allow: false } })
+              .error(new Error('邮箱不符合规范'))
+          },
+          {
+            remoteFn: (email) =>
+              new Promise((resolve, reject) => {
+                http.get('/user/emailExist', { email }).then((res) => {
+                  resolve({
+                    error: res.data ? '邮箱已存在!' : null,
+                  })
+                })
+              }),
+          },
+        )
+      } else {
+        rules.email = useValidate.email
+      }
 
-      // nextTick(() => {
-      //   // resetForm(formRef.value)
-      //   // Object.keys(form).forEach((key) => (form[key] = null))
-      //   // Object.keys(props.formData).forEach((key) => {
-      //   //   form[key] = props.formData[key] || null
-      //   // })
-      //   // nextTick(() => resetForm(formRef.value))
-      // })
       getRoleList()
     }
   },
 )
-
-type IForm = {
-  id?: number
-  name: string
-  key: string
-  sort?: number
-  remark?: string
-}
 
 const form = reactive<any>({
   age: null,

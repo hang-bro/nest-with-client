@@ -70,6 +70,12 @@ export class UserService {
     });
   }
 
+  async emailExist(email: string) {
+    return (
+      (await this.prismaService.user.findMany({ where: { email } })).length > 0
+    );
+  }
+
   async getEmailCode(email: string) {
     // // 判断邮箱是否注册
     // if (await this.ifEmailRegisted(email)) {
@@ -140,7 +146,8 @@ export class UserService {
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
-    const { ...user } = updateUserDto;
+    // @ts-ignore
+    const { password, ...user } = updateUserDto;
     return this.prismaService.user.update({
       where: { id },
       data: user,
