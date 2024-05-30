@@ -6,7 +6,8 @@
 @tailwind utilities;
 
 /* 字体声明 */
-@font-face{
+@font-face {
   font-family: 'YEFONT';
-  src: url("../fonts/myFont.ttf");
+  src: url('../fonts/myFont.ttf');
 }
+

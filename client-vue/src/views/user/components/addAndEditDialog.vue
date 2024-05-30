@@ -17,11 +17,7 @@
         <el-input v-model="form.password" autocomplete="off" />
       </el-form-item>
       <el-form-item label="头像" prop="avatar">
-        <ImageUpload
-          ref="uploadRef"
-          @success="(url) => (form.avatar = url)"
-          @remove="(e) => (form.avatar = '')"
-        />
+        <ImageUpload :limit="2" multiple v-model="form.avatar" />
       </el-form-item>
       <el-form-item label="地址" prop="address">
         <el-input v-model="form.address" autocomplete="off" />
@@ -53,8 +49,6 @@ import { http } from '@/http'
 const roleList = ref([])
 
 const formRef = ref<FormInstance>()
-
-const uploadRef = ref<FormInstance>()
 
 export type IProps = {
   show: boolean

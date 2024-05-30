@@ -1,40 +1,19 @@
-<!--
- * @Description: 
- * @Author: HYH
- * @LastEditors: HYH
- * @LastEditTime: 2023-07-13 16:04:52
--->
-
 <template>
-  <div class="w-full flex flex-wrap">
-    <div>waitUploadList{{ state.waitUploadList }}</div>
-    <div>fileList{{ fileList }}</div>
+  <div class="my-upload" :style="{ '--show-upload': showUpload }">
     <!-- :on-success="handleSuccess" -->
+    <!-- :http-request="httpRequest" -->
     <el-upload
       :auto-upload="false"
       :on-remove="handleRemove"
       :on-preview="(f) => viewImg({ url: f.url })"
       :on-change="handleChange"
-      :http-request="httpRequest"
       v-model:file-list="fileList"
       accept="image/*"
       list-type="picture-card"
-      multiple
+      :multiple="multiple"
+      :limit="multiple ? maxNum : limit"
     >
       <el-icon size="35"><Plus /></el-icon>
-      <div slot="list" class="el-upload-list">
-        <div
-          v-for="file in fileList"
-          :key="file.uid"
-          class="el-upload-file"
-          :class="{
-            'el-upload-file--error': file.status === 'fail',
-          }"
-        >
-          {{ file.name }}
-          <div v-if="file.status === 'fail'" class="el-upload-file__error">上传失败</div>
-        </div>
-      </div>
     </el-upload>
   </div>
 </template>
@@ -42,7 +21,7 @@
 import { IResponse, http } from '@/http'
 import { uploadActions } from '@/http/axios'
 import { Plus } from '@element-plus/icons-vue'
-import { ElUpload, ElLoading } from 'element-plus'
+import { ElUpload } from 'element-plus'
 import viewImg from '../ViewImg'
 
 type ElUploadProps = InstanceType<typeof ElUpload>['$props']
@@ -64,6 +43,8 @@ interface IProps {
   action?: ElUploadProps['action']
   /**limit */
   limit?: number
+  /**做多上传数量 */
+  maxNum?: number
   /**
    * v-model 绑定的值所转换的类型
    * ```javascript
@@ -72,19 +53,44 @@ interface IProps {
    * ```
    */
   formatType?: 'string' | 'array'
+  /**多选 */
+  multiple?: boolean
 }
 const props = withDefaults(defineProps<IProps>(), {
   action: uploadActions.singleImage,
   limit: 1,
+  maxNum: 15,
   formatType: 'string',
+  multiple: false,
+})
+
+const showUpload = computed(() => {
+  return fileList.value.length == props.limit ? 'none' : 'flex'
+})
+const attrs = useAttrs()
+
+onMounted(() => {
+  const modelValue = attrs.modelValue
+  if (!modelValue || (modelValue as string).trim() == '') {
+    fileList.value = []
+    emit('update:modelValue', props.formatType == 'string' ? '' : [])
+    return
+  }
+  const imgArr: string[] = modelValue?.toString()?.split(',') || []
+
+  if (imgArr.length) {
+    ;(fileList.value as { url: string }[]) = imgArr.map((url) => ({ url }))
+  }
 })
 
 const handleRemove: ElUploadProps['onRemove'] = (deleteFile, fileList) => {
   const modelValue = []
+
   fileList.map((file) => {
     const url = file.url.startsWith('http') ? file.url : (file.response as Resonse)?.data
     modelValue.push(url)
   })
+
   emit('update:modelValue', props.formatType == 'string' ? modelValue.toString() : modelValue)
 }
 
@@ -107,39 +113,53 @@ const state = reactive({
 /**上传单个文件 */
 const uploadSingleFile = () => {
   if (!state.waitUploadList.length) {
+    // 正在上传状态改为false
+    state.uploadFlag = false
+
     const modelValue = []
+
     fileList.value.map((file) => {
       const url = file.url.startsWith('http') ? file.url : (file.response as Resonse)?.data
-      modelValue.push(url)
+      url && modelValue.push(url)
     })
-    emit('update:modelValue', props.formatType == 'string' ? modelValue.toString() : modelValue)
-    return
+
+    return (
+      modelValue.length &&
+      emit('update:modelValue', props.formatType == 'string' ? modelValue.toString() : modelValue)
+    )
   }
 
   const formData = new FormData()
+
   const file = state.waitUploadList.shift()
+
   formData.append('file', file.raw)
 
   http.upload(props.action, formData).then((response) => {
-    console.log(`response ==>`, response)
     const index = fileList.value.findIndex((item) => item.uid === file.uid)
-    if (!Object.entries(response).length) {
+
+    if (!Object.keys(response).length) {
       fileList.value[index].response = {}
       fileList.value[index].status = 'fail'
     } else {
       fileList.value[index].response = response
       fileList.value[index].status = 'success'
     }
+
     uploadSingleFile()
   })
 }
 
 const handleChange: ElUploadProps['onChange'] = async (file) => {
+  // 如果正在上传中，直接添加到待上传列表中
   if (state.uploadFlag) {
     return state.waitUploadList.push(file)
   }
+
   state.uploadFlag = true
+
   state.waitUploadList = [file]
+
   uploadSingleFile()
 }
 
@@ -149,13 +169,53 @@ const httpRequest: ElUploadProps['httpRequest'] = async (file) => {
   return await http.upload(props.action, formData)
 }
 </script>
-<style lang="scss" scoped>
-.el-upload-file--error {
-  color: #f56c6c; /* 失败文件名称的颜色 */
-}
-
-.el-upload-file__error {
-  color: #f56c6c; /* 错误提示的文本颜色 */
-  font-size: 12px; /* 错误提示的文本大小 */
+<style lang="scss">
+.my-upload {
+  .el-upload-list {
+    .el-upload--picture-card {
+      display: var(--show-upload);
+    }
+  }
+  .el-upload-list__item-thumbnail {
+    object-fit: cover;
+  }
+  .is-fail {
+    animation: dashedBorder 2s infinite linear;
+    position: relative;
+    @keyframes dashedBorder {
+      0% {
+        border: 2px dashed transparent;
+      }
+      50% {
+        border: 2px dashed red;
+      }
+      100% {
+        border: 2px dashed transparent;
+      }
+    }
+    @keyframes bg {
+      0% {
+        background: red;
+      }
+      50% {
+        background: black;
+      }
+      100% {
+        background: red;
+      }
+    }
+    // &::after {
+    //   content: '';
+    //   position: absolute;
+    //   right: -23px;
+    //   top: -18px;
+    //   width: 70px;
+    //   height: 39px;
+    //   background: red;
+    //   text-align: center;
+    //   transform: rotate(45deg);
+    //   animation: bg 2s infinite linear;
+    // }
+  }
 }
 </style>
