@@ -5,7 +5,7 @@
  * @LastEditTime: 2023-06-08 20:57:13
 -->
 <template>
-  <main class=" w-screen h-screen flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <main class="w-screen h-screen flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <el-form
         status-icon
@@ -14,8 +14,11 @@
         label-position="top"
         :model="form"
         :rules="rules"
-        class="bg-white/40 rounded-2xl shadow-2xl p-7 pt-10">
-        <el-form-item> <div class="w-full font-bold text-[30px] text-center text-bg">注 册</div> </el-form-item>
+        class="bg-white/40 rounded-2xl shadow-2xl p-7 pt-10"
+      >
+        <el-form-item>
+          <div class="w-full font-bold text-[30px] text-center text-bg">注 册</div>
+        </el-form-item>
         <el-form-item prop="email" label="邮箱">
           <el-input v-model="form.email" />
         </el-form-item>
@@ -46,7 +49,7 @@
   </main>
 </template>
 <script setup lang="ts">
-import useValidate from '@/hooks/useValidate'
+import useValidate, { defineValidator } from '@/hooks/useValidate'
 import { http } from '@/http'
 import { ElMessage, FormInstance } from 'element-plus'
 import { useRouter } from 'vue-router'
@@ -68,7 +71,13 @@ const state = reactive({
 })
 
 const rules = reactive<any>({
-  email: useValidate.email,
+  email: defineValidator(({ validators }) => validators.email, {
+    check: async (email, cb) => {
+      const { data } = await http.get('/user/emailExist', { email }, { animate: false })
+      data ? cb('邮箱已存在') : cb()
+    },
+    trigger: 'change',
+  }),
   password: useValidate.password,
   code: useValidate.pleaseInput,
 })
@@ -76,7 +85,7 @@ const rules = reactive<any>({
 const regist = () => {
   formRef.value.validate((valid) => {
     if (valid) {
-      http.post<UserModel>('/user/register', form).then((res) => {
+      http.post('/user/register', form).then((res) => {
         const { code, message } = res
         if (code === 200) {
           ElMessage.success(message)
@@ -91,11 +100,11 @@ const sendEmailCode = async () => {
   try {
     await formRef.value.validateField('email')
   } catch (error) {
-    return ElMessage.error('请填写并填写正确的邮箱!')
+    return ElMessage.error(error.email.map((i) => i.message)?.toString())
   }
   state.btnName = '发送中...'
   state.btnDisabled = true
-  http.post<UserModel>('/user/getEmailCode', { email: form.email }).then((res) => {
+  http.post('/user/getEmailCode', { email: form.email }).then((res) => {
     const { code, message } = res
     if (code === 200) {
       ElMessage.success(message)

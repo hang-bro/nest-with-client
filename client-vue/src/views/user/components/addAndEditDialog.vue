@@ -129,15 +129,6 @@ const rules = computed(() => {
   }
 })
 
-// const rules = reactive({
-//   username: useValidate.pleaseInput,
-//   address: useValidate.pleaseInput,
-//   avatar: useValidate.pleaseSelect,
-//   email: useValidate.email,
-//   password: useValidate.password,
-//   role: useValidate.pleaseSelect,
-// })
-
 const getRoleList = () => http.get('/role').then((res) => (roleList.value = res.data))
 
 const handleSubmit = (formEl: FormInstance) => {

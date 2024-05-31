@@ -24,7 +24,7 @@
     "paths": {
       "@/*": ["src/*"],
       "~/*": ["./*"],
-      "@@/*": ["../server/*"]
+      "@@/*": ["../nest-server/*"]
     }
   },
   "exclude": ["node_modules", "dist"],

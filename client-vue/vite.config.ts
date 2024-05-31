@@ -44,7 +44,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
       port: env.VITE_FRONT_PORT,
       /**可读取的文件夹 */
       fs: {
-        allow: [searchForWorkspaceRoot(process.cwd()), '../app/enum'],
+        allow: [searchForWorkspaceRoot(process.cwd()), '../nest-server/enum'],
       },
     },
 
@@ -54,7 +54,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
       alias: {
         '@': resolve(__dirname, './src'),
         '~': resolve(__dirname, './'),
-        '@@': resolve(__dirname, '../server'),
+        '@@': resolve(__dirname, '../nest-server'),
       },
       extensions: ['.js', '.ts', '.tsx', '.jsx'],
       //
@@ -82,7 +82,8 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
             // A `:` is only allowed as part of a windows drive letter (ex: C:\foo)
             // Otherwise, avoid them because they can refer to NTFS alternate data streams.
             let file = driveLetter + name.slice(driveLetter.length).replace(INVALID_CHAR_REGEX, '')
-            if (file.startsWith('_')) file = file.slice(1) /**去除首位字符串为 "_" , fix github page访问不了的问题*/
+            if (file.startsWith('_'))
+              file = file.slice(1) /**去除首位字符串为 "_" , fix github page访问不了的问题*/
             return file
           },
 

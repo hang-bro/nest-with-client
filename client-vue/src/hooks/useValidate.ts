@@ -14,6 +14,8 @@ const validators = {
     .error(new Error('邮箱不符合规范')),
 }
 
+type RuleCallback = Parameters<FormItemRule['asyncValidator']>['2']
+
 type IParams = {
   /**
    * 触发方式
@@ -27,9 +29,25 @@ type IParams = {
    * 自定义校验法
    * @param value 输入的值
    * @param cb 错误信息回调
+   * @example
+   * ```javascript
+   *   check: async (email, cb) => {
+   *     const { data } = await http.get('/user/emailExist', { email }, { animate: false })
+   *     data ? cb('邮箱已存在') : cb()
+   *   }
+   * ```
+   * @example
+   * ```
+   * check: (email, cb) =>
+        http
+          .get('/user/emailExist', { email }, { animate: false })
+          .then(({ data }) => {
+            data ? cb('邮箱已存在') : cb()
+          }),
+   * ```
    * @returns
    */
-  check?: <T extends any = string>(value: T, cb: (error?: string | Error) => void) => Promise<void>
+  check?: <T extends any = string>(value: T, cb: RuleCallback) => Promise<void>
 }
 
 type ICallback = (args: { joi: typeof Joi; validators: typeof validators }) => any
@@ -54,7 +72,7 @@ export const defineValidator = (callback: ICallback, params: IParams = {}) => {
 
   return [
     {
-      asyncValidator: async (_rule: any, value: any, cb: (error?: string | Error) => void) => {
+      asyncValidator: async (_rule: any, value: any, cb: RuleCallback) => {
         const { error } = callback({ joi: Joi, validators }).validate(value)
 
         if (error) return cb(new Error(error.message))
