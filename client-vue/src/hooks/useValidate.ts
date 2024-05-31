@@ -1,6 +1,19 @@
 import { FormItemRule } from 'element-plus'
 import Joi from 'joi'
 
+const validators = {
+  /**请输入 数据不能为空 */
+  pleaseInput: Joi.alternatives().try(Joi.string(), Joi.number()).error(new Error('请输入')),
+
+  /**密码 密码长度应在6~20*/
+  password: Joi.string().min(6).max(20).error(new Error('密码长度应在6~20')),
+
+  /**邮箱 */
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .error(new Error('邮箱不符合规范')),
+}
+
 type IParams = {
   /**
    * 触发方式
@@ -11,42 +24,43 @@ type IParams = {
    */
   required?: boolean
   /**
-   * 远程验证方法
+   * 自定义校验法
+   * @param value 输入的值
+   * @param cb 错误信息回调
+   * @returns
    */
-  remoteFn?: (value: any) => Promise<{ error?: string }>
+  check?: <T extends any = string>(value: T, cb: (error?: string | Error) => void) => Promise<void>
 }
 
-type ICallback = (joi: typeof Joi) => any
+type ICallback = (args: { joi: typeof Joi; validators: typeof validators }) => any
 
 let timer: any = null
 
 function debouce(cb: Function) {
-  return new Promise<{ error?: string }>((resolve, reject) => {
+  return new Promise<any>((resolve) => {
     if (timer) {
       clearInterval(timer)
     }
-    timer = setTimeout(async () => {
-      resolve(await cb())
-    }, 1000)
+    timer = setTimeout(() => resolve(cb()), 1000)
   })
+  // if (timer) {
+  //   clearInterval(timer)
+  // }
+  // timer = setTimeout(() => cb(), 1000)
 }
 
 export const defineValidator = (callback: ICallback, params: IParams = {}) => {
-  const { trigger = ['blur', 'change'], required = true, remoteFn } = params
+  let { trigger = ['blur', 'change'], required = true, check } = params
 
   return [
     {
-      validator: async (_rule: any, value: any, cb: Function) => {
-        const { error } = callback(Joi).validate(value)
+      asyncValidator: async (_rule: any, value: any, cb: (error?: string | Error) => void) => {
+        const { error } = callback({ joi: Joi, validators }).validate(value)
 
         if (error) return cb(new Error(error.message))
 
-        if (remoteFn) {
-          const { error } = await debouce(() => remoteFn(value))
-          if (!error) return cb()
-          else {
-            return cb(new Error(error))
-          }
+        if (check) {
+          return debouce(() => check(value, cb))
         }
 
         return cb()
@@ -57,20 +71,12 @@ export const defineValidator = (callback: ICallback, params: IParams = {}) => {
   ] as FormItemRule
 }
 
-const pleaseInput = Joi.alternatives().try(Joi.string(), Joi.number()).error(new Error('请输入'))
-
-const password = Joi.string().min(6).max(20).error(new Error('密码长度应在6~20'))
-
-const email = Joi.string()
-  .email({ tlds: { allow: false } })
-  .error(new Error('邮箱不符合规范'))
-
 /**表单校验规则 */
 const useValidate = {
   /**
    * 请输入
    */
-  pleaseInput: defineValidator(() => pleaseInput),
+  pleaseInput: defineValidator(() => validators.pleaseInput),
   /**
    * 请选择
    */
@@ -78,11 +84,11 @@ const useValidate = {
   /**
    * 密码  (6~20)
    */
-  password: defineValidator(() => password),
+  password: defineValidator(() => validators.password),
   /**
    * 邮箱
    */
-  email: defineValidator(() => email),
+  email: defineValidator(() => validators.email),
 }
 
 export default useValidate

@@ -7,7 +7,6 @@
     :before-close="cancel"
     destroy-on-close
   >
-    rules{{ rules.email }}
     <el-form ref="formRef" :model="form" status-icon :rules="rules" label-width="auto" class="demo-form">
       <el-form-item label="用户名" prop="username">
         <el-input v-model="form.username" autocomplete="off" />
@@ -43,7 +42,7 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import type { FormInstance } from 'element-plus'
+import type { FormInstance, FormItemRule } from 'element-plus'
 
 import useValidate, { defineValidator } from '@/hooks/useValidate'
 import { http } from '@/http'
@@ -92,28 +91,6 @@ watch(
           form[key] = props.formData[key] || null
         })
       }
-      if (props.type == 'add') {
-        rules.email = defineValidator(
-          (joi) => {
-            return joi
-              .string()
-              .email({ tlds: { allow: false } })
-              .error(new Error('邮箱不符合规范'))
-          },
-          {
-            remoteFn: (email) =>
-              new Promise((resolve, reject) => {
-                http.get('/user/emailExist', { email }).then((res) => {
-                  resolve({
-                    error: res.data ? '邮箱已存在!' : null,
-                  })
-                })
-              }),
-          },
-        )
-      } else {
-        rules.email = useValidate.email
-      }
 
       getRoleList()
     }
@@ -129,14 +106,37 @@ const form = reactive<any>({
   password: '',
 })
 
-const rules = reactive({
-  username: useValidate.pleaseInput,
-  address: useValidate.pleaseInput,
-  avatar: useValidate.pleaseSelect,
-  email: useValidate.email,
-  password: useValidate.password,
-  role: useValidate.pleaseSelect,
+const rules = computed(() => {
+  let emailRule: FormItemRule
+  if (props.type == 'add') {
+    emailRule = defineValidator(({ validators }) => validators.email, {
+      check: async (email, cb) => {
+        const { data } = await http.get('/user/emailExist', { email }, { animate: false })
+        data ? cb('邮箱已存在') : cb()
+      },
+      trigger: 'change',
+    })
+  } else {
+    emailRule = useValidate.email
+  }
+  return {
+    username: useValidate.pleaseInput,
+    address: useValidate.pleaseInput,
+    avatar: useValidate.pleaseSelect,
+    email: emailRule,
+    password: useValidate.password,
+    role: useValidate.pleaseSelect,
+  }
 })
+
+// const rules = reactive({
+//   username: useValidate.pleaseInput,
+//   address: useValidate.pleaseInput,
+//   avatar: useValidate.pleaseSelect,
+//   email: useValidate.email,
+//   password: useValidate.password,
+//   role: useValidate.pleaseSelect,
+// })
 
 const getRoleList = () => http.get('/role').then((res) => (roleList.value = res.data))
 
