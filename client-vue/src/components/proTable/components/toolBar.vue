@@ -5,11 +5,11 @@
       <el-button class="ml-2" @click="handleShowSearch" circle :icon="Search" />
     </el-tooltip>
 
-    <el-popover :width="200"  trigger="click">
+    <el-popover :width="200" trigger="click" @show="hanldeShow">
       <template #reference>
         <el-button class="ml-2" circle :icon="Setting" />
       </template>
-      <el-table :height="300" @selection-change="handleSelectionChange" :data="columns">
+      <el-table ref="tableRef" :height="300" @selection-change="handleSelectionChange" :data="columns">
         <el-table-column type="selection" />
         <el-table-column prop="label" label="标题">
           <template #default="{ row }">
@@ -28,7 +28,7 @@
 </template>
 <script lang="ts" setup>
 import { Refresh, Search, Setting } from '@element-plus/icons-vue'
-
+import { ElTable } from 'element-plus'
 type IProps = {
   columns: IProTableColumns
   showSearch: boolean
@@ -43,11 +43,22 @@ type IEmit = {
 }
 const emit = defineEmits<IEmit>()
 
+const tableRef = ref<InstanceType<typeof ElTable>>()
+
+const flag = ref(false)
+
 const handleShowSearch = () => emit('update:showSearch', !props.showSearch)
 
 const handleSelectionChange = (rows: IProTableColumns) => {
   const ids = rows.map((i) => i.uuid)
   emit('selectColumns', ids)
+}
+
+const hanldeShow = () => {
+  if (!flag.value) {
+    tableRef.value!.toggleAllSelection()
+    flag.value = true
+  }
 }
 </script>
 <style lang="scss" scoped></style>

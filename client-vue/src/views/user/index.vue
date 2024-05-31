@@ -63,6 +63,22 @@ const proTableProps = reactive<IProTableProps>({
     { prop: 'email', label: '邮箱', useCopy: true },
     { prop: 'address', label: '地址' },
     { prop: 'role', label: '角色' },
+    {
+      prop: 'createTime',
+      label: '创建时间',
+      width: 160,
+      render: ({ row }) => {
+        return dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss')
+      },
+    },
+    {
+      prop: 'updateTime',
+      label: '修改时间',
+      width: 160,
+      render: ({ row }) => {
+        return dayjs(row.updateTime).format('YYYY-MM-DD HH:mm:ss')
+      },
+    },
     { label: '操作', prop: 'option', useSlot: true, width: 200, fixed: 'right' },
   ],
 })
