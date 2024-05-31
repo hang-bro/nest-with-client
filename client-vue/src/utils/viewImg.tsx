@@ -11,6 +11,14 @@ const App: globalThis.Component = {
   props: {
     destroy: Function,
     url: String,
+    closeOnClickModel: {
+      type: Boolean,
+      default: false,
+    },
+    closeOnPressEscape: {
+      type: Boolean,
+      default: false,
+    },
   },
   render({ $props }) {
     const imgRef = ref()
@@ -26,7 +34,6 @@ const App: globalThis.Component = {
 
     const imgStyle = computed(() => {
       const style = { transform: `scale(${transform.scale}) rotate(${transform.rotate}deg)` }
-      console.log(`style ==>`, style)
       return style
     })
     const close = () => $props.destroy()
@@ -45,7 +52,7 @@ const App: globalThis.Component = {
         if (e.key === 'Escape') {
           //移除监听
           document.onkeydown = null
-          close()
+          $props.closeOnPressEscape && close()
         }
       }
       //不使用nextTick会造成获取不到imgRef.value
@@ -82,7 +89,10 @@ const App: globalThis.Component = {
       <>
         <Transition mode="out-in">
           <div class="z-[999] bg-black bg-opacity-30 cursor-pointer flex flex-col items-center justify-center absolute top-0 w-full h-screen overflow-hidden">
-            <div class="absolute w-full h-full top-0 left-0 opacity-50 bg-black"></div>
+            <div
+              class="absolute w-full h-full top-0 left-0 opacity-50 bg-black"
+              onClick={() => state.closeOnClickModel && close()}
+            ></div>
             <div class="p-5 absolute z-[2] bottom-[40px] bg-black bg-opacity-30 rounded-[10px]">
               <button onClick={() => (transform.scale += 0.1)} class="hang i-bigger !text-2xl"></button>
               <button
@@ -106,7 +116,11 @@ const App: globalThis.Component = {
   },
 }
 
-export default (url: string) => {
+type IConfig = {
+  closeOnClickModel?: boolean
+  closeOnPressEscape?: boolean
+}
+export default (url: string, config?: IConfig) => {
   const div = document.createElement('div')
   document.body.appendChild(div)
   const app = createApp(App, {
@@ -115,6 +129,7 @@ export default (url: string) => {
       app.unmount()
       div.remove()
     },
+    ...config,
   })
 
   app.mount(div)

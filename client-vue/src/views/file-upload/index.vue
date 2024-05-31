@@ -21,7 +21,9 @@
       <el-progress type="dashboard" :percentage="+state.percentage.toFixed(2)" :color="colors" />
     </div> -->
     <img
-      @click="viewImg('http://localhost:2333/static/upload/images/1717142617388.png')"
+      @click="
+        viewImg('http://localhost:2333/static/upload/images/1717142617388.png', { closeOnClickModel: false })
+      "
       src="http://localhost:2333/static/upload/images/1717142617388.png"
       alt=""
     />
