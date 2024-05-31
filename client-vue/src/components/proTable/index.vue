@@ -97,7 +97,7 @@
     </el-card>
 
     <!-- 分页区域 -->
-    <section class="flex my-5 justify-end">
+    <section class="flex my-5 justify-end hidden sm:block">
       <el-pagination
         background
         v-model:current-page="pageIndex"
