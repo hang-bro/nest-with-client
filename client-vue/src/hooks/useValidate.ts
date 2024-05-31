@@ -54,17 +54,13 @@ type ICallback = (args: { joi: typeof Joi; validators: typeof validators }) => a
 
 let timer: any = null
 
-function debouce(cb: Function) {
+function debounce(cb: Function, delay = 1000) {
   return new Promise<any>((resolve) => {
     if (timer) {
       clearInterval(timer)
     }
-    timer = setTimeout(() => resolve(cb()), 1000)
+    timer = setTimeout(() => resolve(cb()), delay)
   })
-  // if (timer) {
-  //   clearInterval(timer)
-  // }
-  // timer = setTimeout(() => cb(), 1000)
 }
 
 export const defineValidator = (callback: ICallback, params: IParams = {}) => {
@@ -78,7 +74,7 @@ export const defineValidator = (callback: ICallback, params: IParams = {}) => {
         if (error) return cb(new Error(error.message))
 
         if (check) {
-          return debouce(() => check(value, cb))
+          return debounce(() => check(value, cb))
         }
 
         return cb()
