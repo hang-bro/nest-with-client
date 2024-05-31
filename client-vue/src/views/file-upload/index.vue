@@ -6,7 +6,9 @@
 -->
 <template>
   <main class="w-full h-full p-5 bg-gray-100">
-    <el-upload :limit="1" ref="uploadRef" class="upload-demo" :auto-upload="false" @change="fileChange">
+    <ImageUpload v-model="form.avatar" />
+
+    <!-- <el-upload :limit="1" ref="uploadRef" class="upload-demo" :auto-upload="false" @change="fileChange">
       <template #trigger>
         <el-button type="primary">选择文件</el-button>
       </template>
@@ -17,12 +19,22 @@
     <el-button class="ml-3" type="success" @click="submitUpload()"> upload to server </el-button>
     <div>
       <el-progress type="dashboard" :percentage="+state.percentage.toFixed(2)" :color="colors" />
-    </div>
+    </div> -->
+    <img
+      @click="viewImg('http://localhost:2333/static/upload/images/1717142617388.png')"
+      src="http://localhost:2333/static/upload/images/1717142617388.png"
+      alt=""
+    />
   </main>
 </template>
 <script lang="ts" setup>
 import { http } from '@/http'
 import type { UploadInstance } from 'element-plus'
+import viewImg from '@/utils/viewImg.tsx'
+
+const form = reactive({
+  avatar: '',
+})
 const state = reactive({
   percentage: 0,
 })

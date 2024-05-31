@@ -123,7 +123,8 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import CopyText from './components/copyText.vue'
 import SearchForm from './components/searchForm.vue'
 import ToolBar from './components/toolBar.vue'
-import viewImg from '../ViewImg'
+import viewImg from '@/utils/viewImg.tsx'
+
 
 export type IProTableProps = {
   api: IProTableApi

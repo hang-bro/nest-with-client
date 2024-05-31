@@ -109,7 +109,7 @@ export const http: IHttp = {}
       return (http[method] = <T>(url: string, params: object, config: AxiosRequestConfig = uploadConfig) => {
         return new Promise<IResponse<T>>((resolve, reject) => {
           instance
-            .post(url, params, config)
+            .post(url, params, { ...uploadConfig, ...config })
             .then((res) => resolve(res.data))
             .catch((err) => reject(err))
         })
