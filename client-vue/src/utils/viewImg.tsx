@@ -1,32 +1,22 @@
 import '@/assets/css/viewImg.module.scss'
 import { Transition, computed, nextTick, reactive, ref } from 'vue'
-type IProp = {
-  /**图片地址 */
-  url: string | string[]
-  /**是否可以通过点击 遮罩 关闭   默认true */
-  closeOnClickModel?: boolean
-  destroy: Function
-}
+
 const App: globalThis.Component = {
   props: {
     destroy: Function,
     url: String,
     closeOnClickModel: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     closeOnPressEscape: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   render({ $props }) {
     const imgRef = ref<HTMLElement>()
-    const state = reactive({
-      imgUrl: '' as any,
-      /**是否可以通过点击 遮罩 关闭   默认true */
-      closeOnClickModel: true,
-    })
+
     const transform = reactive({
       scale: 1,
       rotate: 0,
@@ -56,35 +46,25 @@ const App: globalThis.Component = {
           $props.closeOnPressEscape && close()
         }
       }
-      //不使用nextTick会造成获取不到imgRef.value
-      nextTick(() => {
-        // 图片加载完成回调函数
-        imgRef.value.onload = () => {
-          // 添加鼠标滚动事件
-          imgRef.value.addEventListener('wheel', (e: WheelEvent) => {
-            if (e.deltaY > 0) {
-              //缩小
-              transform.scale > 0.2 ? (transform.scale -= 0.1) : '' //此处进行最小缩放限制  否则会造成图片不存在 和其他bug
-            } else {
-              //放大
-              transform.scale += 0.2
-            }
-          })
-        }
-      })
+      // 图片加载完成回调函数
+      imgRef.value.onload = () => {
+        // 添加鼠标滚动事件
+        imgRef.value.addEventListener('wheel', (e: WheelEvent) => {
+          if (e.deltaY > 0) {
+            //缩小
+            transform.scale > 0.2 ? (transform.scale -= 0.1) : '' //此处进行最小缩放限制  否则会造成图片不存在 和其他bug
+          } else {
+            //放大
+            transform.scale += 0.2
+          }
+        })
+      }
     }
 
-    const open = (prop: IProp) => {
-      const { url, closeOnClickModel } = prop
-
-      state.imgUrl = url
-      //判断传入参数是否启用 closeOnClickModel
-      if (closeOnClickModel === false) state.closeOnClickModel = closeOnClickModel
-
+    nextTick(() => {
       reset()
       addEvent()
-    }
-    open($props)
+    })
 
     return (
       <>
@@ -92,7 +72,7 @@ const App: globalThis.Component = {
           <div class="z-[999] bg-black bg-opacity-30 cursor-pointer flex flex-col items-center justify-center absolute top-0 w-full h-screen overflow-hidden">
             <div
               class="absolute w-full h-full top-0 left-0 opacity-50 bg-black"
-              onClick={() => state.closeOnClickModel && close()}
+              onClick={() => $props.closeOnClickModel && close()}
             ></div>
             <div class="p-5 absolute z-[2] bottom-[40px] bg-black bg-opacity-30 rounded-[10px]">
               <button onClick={() => (transform.scale += 0.1)} class="hang i-bigger !text-2xl"></button>
@@ -107,7 +87,7 @@ const App: globalThis.Component = {
               class="cursor-pointer z-[1] w-4/5 duration-500 ease-in-out"
               ref={imgRef}
               style={imgStyle.value}
-              src={state.imgUrl}
+              src={$props.url}
               alt=""
             />
           </div>
