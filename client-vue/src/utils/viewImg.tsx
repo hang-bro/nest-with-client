@@ -1,6 +1,5 @@
 import '@/assets/css/viewImg.module.scss'
-import { ElButton } from 'element-plus'
-import { Transition, computed, nextTick, reactive, ref } from 'vue'
+import { Transition, computed, nextTick, reactive } from 'vue'
 
 const App: globalThis.Component = {
   props: {

@@ -10,7 +10,7 @@ import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import { App, Plugin } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { FormInstance } from 'element-plus'
-import { showSourceCode } from '@/components/sourceCode/index'
+import showSourceCode from '@/utils/showSourceCode.tsx'
 
 /**重置表单 */
 export const resetForm = (formEl: FormInstance | undefined, cb?: Function) => {

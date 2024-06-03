@@ -1,0 +1,16 @@
+.source-code-dialog {
+  font-style: italic;
+  .el-overlay-dialog {
+    .el-dialog {
+      @apply rounded-xl;
+      .el-dialog__body {
+        padding: 0 15px;
+        font-size: 15px;
+        .code-area {
+          max-height: calc(100vh - 150px);
+          overflow: auto;
+        }
+      }
+    }
+  }
+}

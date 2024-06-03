@@ -24,6 +24,10 @@
       <template #content> 刷新列表 </template>
       <el-button class="ml-2" @click="getList" circle :icon="Refresh" />
     </el-tooltip>
+    <el-tooltip placement="top">
+      <template #content> 源代码 </template>
+      <el-button class="ml-2" @click="showSourceCode('/src/views/user/index.vue')" circle :icon="Refresh" />
+    </el-tooltip>
   </section>
 </template>
 <script lang="ts" setup>

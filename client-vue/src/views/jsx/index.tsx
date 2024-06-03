@@ -1,7 +1,6 @@
 import { ElButton } from 'element-plus'
 import C1, { IAdd } from './components/1'
 import Loading from '@/components/loading/index.vue'
-import SourceCode from '@/components/sourceCode/index.vue'
 import tsx from './components/1.tsx?raw'
 export default defineComponent({
   setup() {
@@ -24,7 +23,6 @@ export default defineComponent({
 
     return () => (
       <main class="w-full h-full flex flex-col">
-        <SourceCode show={sourceCode.show} code={sourceCode.code} />
         <section>
           <div onClick={() => (sourceCode.show = true)}>TSX组件 查看源码</div>
         </section>
