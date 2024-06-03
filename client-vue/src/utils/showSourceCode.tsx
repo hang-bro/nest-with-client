@@ -1,6 +1,7 @@
 import { ElButton, ElDialog } from 'element-plus'
 import '@/assets/css/sourceCode.scss'
 import prims from 'prismjs'
+import Code from '@/components/code/index.vue'
 
 const App: globalThis.Component = {
   props: {
@@ -16,7 +17,7 @@ const App: globalThis.Component = {
     const destroy = () => $props.destroy()
 
     const sourceCode = computed(() => {
-      const allFiles = import.meta.glob(['@/directives/**','@/views/**', '@/components/**'], {
+      const allFiles = import.meta.glob(['@/directives/**', '@/components/**'], {
         eager: true,
         as: 'raw',
       })
@@ -48,13 +49,7 @@ const App: globalThis.Component = {
             default: () => (
               <>
                 <section class="code-area overflow-auto no-scroll">
-                  <div>
-                    <pre class="cursor-pointer language-ts line-numbers">
-                      <code contenteditable="true" class="language-ts !border-0 !outline-0">
-                        {sourceCode.value}
-                      </code>
-                    </pre>
-                  </div>
+                  <Code html={sourceCode.value} language="ts" />
                 </section>
               </>
             ),

@@ -17,7 +17,7 @@ const props = withDefaults(
   },
 )
 const classNames = computed(() => {
-  return `language-${props.language} line-numbers `
+  return `language-${props.language} line-numbers  !outline-0`
 })
 watch(
   () => props.html,
