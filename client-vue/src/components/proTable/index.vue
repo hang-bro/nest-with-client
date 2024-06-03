@@ -1,7 +1,7 @@
 <template>
   <main class="w-full h-full p-5 flex flex-col bg-gray-100" ref="mainRef">
     <!-- 搜索区域 -->
-    <section class="hidden sm:block my-2" v-show="showSearch">
+    <section class="hidden sm:block my-2 animate__animated animate__flipInX" v-show="showSearch">
       <SearchForm :searchForm="searchForm" :getList="getList" :reset="reset" :loading="loading" />
     </section>
     <!-- 搜索区域 end-->
@@ -124,7 +124,6 @@ import CopyText from './components/copyText.vue'
 import SearchForm from './components/searchForm.vue'
 import ToolBar from './components/toolBar.vue'
 import viewImg from '@/utils/viewImg.tsx'
-
 
 export type IProTableProps = {
   api: IProTableApi

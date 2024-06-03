@@ -21,7 +21,7 @@ const App: globalThis.Component = {
     },
   },
   render({ $props }) {
-    const imgRef = ref()
+    const imgRef = ref<HTMLElement>()
     const state = reactive({
       imgUrl: '' as any,
       /**是否可以通过点击 遮罩 关闭   默认true */
@@ -32,16 +32,17 @@ const App: globalThis.Component = {
       rotate: 0,
     })
 
-    const imgStyle = computed(() => {
-      const style = { transform: `scale(${transform.scale}) rotate(${transform.rotate}deg)` }
-      return style
-    })
+    const imgStyle = computed(() => ({
+      transform: `scale(${transform.scale}) rotate(${transform.rotate}deg)`,
+    }))
+
     const close = () => $props.destroy()
 
     const reset = () => {
       transform.rotate = 0
       transform.scale = 1
     }
+
     /**添加相关监听事件 */
     const addEvent = () => {
       /**
@@ -58,9 +59,9 @@ const App: globalThis.Component = {
       //不使用nextTick会造成获取不到imgRef.value
       nextTick(() => {
         // 图片加载完成回调函数
-        imgRef.value.onload = (e) => {
+        imgRef.value.onload = () => {
           // 添加鼠标滚动事件
-          ;(imgRef?.value as any).onmousewheel = (e: WheelEvent) => {
+          imgRef.value.addEventListener('wheel', (e: WheelEvent) => {
             if (e.deltaY > 0) {
               //缩小
               transform.scale > 0.2 ? (transform.scale -= 0.1) : '' //此处进行最小缩放限制  否则会造成图片不存在 和其他bug
@@ -68,7 +69,7 @@ const App: globalThis.Component = {
               //放大
               transform.scale += 0.2
             }
-          }
+          })
         }
       })
     }
@@ -105,7 +106,7 @@ const App: globalThis.Component = {
             <img
               class="cursor-pointer z-[1] w-4/5 duration-500 ease-in-out"
               ref={imgRef}
-              style={{ ...imgStyle.value }}
+              style={imgStyle.value}
               src={state.imgUrl}
               alt=""
             />
