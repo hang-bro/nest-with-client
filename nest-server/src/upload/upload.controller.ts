@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Post,
@@ -11,7 +12,7 @@ import { zip } from 'compressing';
 import { Response } from 'express';
 import { join } from 'path';
 import { UploadService } from './upload.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/decorator/public.decorator';
 import { readdirSync } from 'fs';
 
@@ -24,6 +25,24 @@ export class UploadController {
   @UseInterceptors(FileInterceptor('file'))
   upload(@UploadedFile() file) {
     return this.uploadService.uploadFile(file);
+  }
+
+  @Post('slice')
+  @ApiOperation({
+    summary: '切片上传',
+  })
+  @UseInterceptors(FileInterceptor('file'))
+  uploadSlice(@UploadedFile() file) {
+    return this.uploadService.uploadSlice(file);
+  }
+
+  @Post('slice/merge')
+  @ApiOperation({
+    summary: '切片上传合并',
+  })
+  @UseInterceptors(FileInterceptor('file'))
+  uploadSliceMerge(@Body('name') file) {
+    return this.uploadService.uploadSliceMerge(file);
   }
 
   @Public()

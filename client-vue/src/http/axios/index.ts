@@ -24,36 +24,6 @@ export const uploadActions = {
    * 上传单个图片
    */
   singleImage: baseURL + '/upload',
-
-  /**
-   * 上传多个图片
-   */
-  multipleImages: baseURL + '/upload/images',
-
-  /**
-   * 上传单个文件
-   */
-  singleFile: baseURL + '/upload/file/single',
-
-  /**
-   * 上传多个文件
-   */
-  multipleFiles: baseURL + '/upload/files',
-
-  /**
-   * 上传头像
-   */
-  avatar: baseURL + '/upload/avatar',
-
-  /**
-   * 上传视频
-   */
-  video: baseURL + '/upload/video',
-
-  /**
-   * 上传音频
-   */
-  audio: baseURL + '/upload/audio',
 }
 
 const start = async (config: IRequestConfig) => {

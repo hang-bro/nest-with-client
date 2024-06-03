@@ -220,7 +220,6 @@ const uploadSingleFile = () => {
 
   formData.append('file', file.raw)
 
-  const config = {}
 
   http
     .upload(props.action, formData, {
