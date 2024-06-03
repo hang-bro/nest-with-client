@@ -99,8 +99,6 @@ const App: globalThis.Component = {
             )}
             {Array.isArray($props.url) && (
               <>
-                <div>state.index{state.index}</div>
-                <div>state.imgUrl[state.index]{state.imgUrl[state.index]}</div>
                 <img
                   class="cursor-pointer z-[1] max-h-full  duration-500 ease-in-out"
                   style={imgStyle.value}
