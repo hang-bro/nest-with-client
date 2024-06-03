@@ -54,7 +54,7 @@
         </el-form-item>
       </section>
       <section>
-        <el-button color="#626aef" type="primary" @click="getList" :loading="loading"> 查询 </el-button>
+        <el-button type="primary" @click="getList" :loading="loading"> 查询 </el-button>
         <el-button type="info" @click="reset(searchFormRef)">重置</el-button>
       </section>
     </el-form>

@@ -8,9 +8,9 @@
     <!--  -->
     <el-card shadow="never" class="flex-1 overflow-auto table-content">
       <!-- 按钮区域 -->
-      <section class="mb-3 hidden sm:block">
+      <section class="mb-2">
         <div class="flex items-center justify-between">
-          <section>
+          <section class="action-btns">
             <slot name="actions" v-bind="exposed" />
           </section>
           <!--  -->
@@ -97,7 +97,7 @@
     </el-card>
 
     <!-- 分页区域 -->
-    <section class="flex my-5 justify-end hidden sm:block">
+    <section class="flex mt-5 justify-end hidden sm:block">
       <el-pagination
         background
         v-model:current-page="pageIndex"
@@ -253,6 +253,13 @@ const exposed = reactive({
     }
     &__icon {
       @apply ml-1 w-[16px]  text-[#1677ff] cursor-pointer;
+    }
+  }
+  .action-btns {
+    :deep(button) {
+      &:nth-child(1) {
+        @apply ml-0;
+      }
     }
   }
 }

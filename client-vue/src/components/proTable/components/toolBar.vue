@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="toolbar">
     <el-tooltip placement="top">
       <template #content> {{ showSearch ? '隐藏搜索' : '显示搜索' }} </template>
       <el-button class="ml-2" @click="handleShowSearch" circle :icon="Search" />
@@ -61,4 +61,12 @@ const hanldeShow = () => {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.toolbar {
+  :deep(button) {
+    &:last-child {
+      @apply mr-0;
+    }
+  }
+}
+</style>
