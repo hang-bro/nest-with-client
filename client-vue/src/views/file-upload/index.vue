@@ -21,7 +21,9 @@
       <el-progress type="dashboard" :percentage="+state.percentage.toFixed(2)" :color="colors" />
     </div> -->
     <img
-      @click="viewImg('http://localhost:2333/static/upload/images/1717142617388.png')"
+      @click="
+        viewImg(['http://localhost:2333/static/upload/images/1717142617388.png','http://localhost:2333/static/upload/images/1717381265567.png'],)
+      "
       src="http://localhost:2333/static/upload/images/1717142617388.png"
       alt=""
     />
@@ -30,7 +32,7 @@
 <script lang="ts" setup>
 import { http } from '@/http'
 import type { UploadInstance } from 'element-plus'
-import viewImg from '@/utils/viewImg.tsx'
+import viewImg from '@/utils/viewImg'
 
 const form = reactive({
   avatar: '',

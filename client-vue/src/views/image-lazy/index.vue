@@ -12,7 +12,8 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { http } from '@/http'
-import viewImg from '@/components/ViewImg/index'
+import viewImg from '@/utils/viewImg'
+
 
 const imgs = ref([])
 const mainRef = ref()
@@ -20,8 +21,7 @@ const mainRef = ref()
 const handlePreview = (e: PointerEvent) => {
   const target = e.target as HTMLImageElement
   const src = target.getAttribute('data-src')
-  console.log(`src ==>`, src)
-  viewImg({ url: src })
+  viewImg(src)
 }
 onMounted(async () => {
   await http.get<any>('/api/patch/patchList').then((res) => {

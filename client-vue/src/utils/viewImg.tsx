@@ -1,10 +1,11 @@
 import '@/assets/css/viewImg.module.scss'
+import { ElButton } from 'element-plus'
 import { Transition, computed, nextTick, reactive, ref } from 'vue'
 
 const App: globalThis.Component = {
   props: {
     destroy: Function,
-    url: String,
+    url: [String, Array],
     closeOnClickModel: {
       type: Boolean,
       default: true,
@@ -15,26 +16,44 @@ const App: globalThis.Component = {
     },
   },
   render({ $props }) {
-    const imgRef = ref<HTMLElement>()
-
-    const transform = reactive({
+    const state = reactive({
+      /**缩放 */
       scale: 1,
+      /**旋转角度 */
       rotate: 0,
+      /** */
+      imgUrl: '',
+      /**索引值 */
+      index: 0,
     })
 
+    state.imgUrl = $props.url
+
     const imgStyle = computed(() => ({
-      transform: `scale(${transform.scale}) rotate(${transform.rotate}deg)`,
+      transform: `scale(${state.scale}) rotate(${state.rotate}deg)`,
     }))
 
     const close = () => $props.destroy()
 
     const reset = () => {
-      transform.rotate = 0
-      transform.scale = 1
+      state.rotate = 0
+      state.scale = 1
     }
 
     /**添加相关监听事件 */
-    const addEvent = () => {
+    const addEvent = (e: Event) => {
+      e.target.addEventListener('wheel', (e: WheelEvent) => {
+        //缩小
+        if (e.deltaY > 0) {
+          state.scale > 0.2 ? (state.scale -= 0.1) : '' //此处进行最小缩放限制  否则会造成图片不存在 和其他bug
+        } /**放大*/ else {
+          state.scale += 0.2
+        }
+      })
+    }
+
+    nextTick(() => {
+      reset()
       /**
        * 监听 ESC 键盘事件
        */
@@ -46,24 +65,6 @@ const App: globalThis.Component = {
           $props.closeOnPressEscape && close()
         }
       }
-      // 图片加载完成回调函数
-      imgRef.value.onload = () => {
-        // 添加鼠标滚动事件
-        imgRef.value.addEventListener('wheel', (e: WheelEvent) => {
-          if (e.deltaY > 0) {
-            //缩小
-            transform.scale > 0.2 ? (transform.scale -= 0.1) : '' //此处进行最小缩放限制  否则会造成图片不存在 和其他bug
-          } else {
-            //放大
-            transform.scale += 0.2
-          }
-        })
-      }
-    }
-
-    nextTick(() => {
-      reset()
-      addEvent()
     })
 
     return (
@@ -74,22 +75,63 @@ const App: globalThis.Component = {
               class="absolute w-full h-full top-0 left-0 opacity-50 bg-black"
               onClick={() => $props.closeOnClickModel && close()}
             ></div>
-            <div class="p-5 absolute z-[2] bottom-[40px] bg-black bg-opacity-30 rounded-[10px]">
-              <button onClick={() => (transform.scale += 0.1)} class="hang i-bigger !text-2xl"></button>
+            <div class="p-6 absolute z-[2] bottom-[40px] bg-black bg-opacity-30 rounded-[10px]">
+              <button onClick={() => (state.scale += 0.1)} class="hang i-bigger !text-3xl"></button>
               <button
-                onClick={() => (transform.scale > 0.2 ? (transform.scale -= 0.1) : '')}
-                class="hang i-smaller !text-2xl"
+                onClick={() => (state.scale > 0.2 ? (state.scale -= 0.1) : '')}
+                class="hang i-smaller !text-3xl"
               ></button>
-              <button onClick={() => (transform.rotate += 90)} class="hang i-rotate !text-2xl"></button>
-              <button onClick={() => close()} class="hang i-close !text-2xl"></button>
+              <button
+                onClick={() => (state.rotate -= 90)}
+                class="hang i-xiangzuoxuanzhuan !text-3xl"
+              ></button>
+              <button onClick={() => (state.rotate += 90)} class="hang i-rotate !text-3xl"></button>
+              <button onClick={() => close()} class="hang i-close !text-3xl"></button>
             </div>
-            <img
-              class="cursor-pointer z-[1] w-4/5 duration-500 ease-in-out"
-              ref={imgRef}
-              style={imgStyle.value}
-              src={$props.url}
-              alt=""
-            />
+            {!Array.isArray($props.url) && (
+              <img
+                class="cursor-pointer z-[1] max-h-full  duration-500 ease-in-out"
+                style={imgStyle.value}
+                src={$props.url}
+                alt=""
+                onLoad={addEvent}
+              />
+            )}
+            {Array.isArray($props.url) && (
+              <>
+                <div>state.index{state.index}</div>
+                <div>state.imgUrl[state.index]{state.imgUrl[state.index]}</div>
+                <img
+                  class="cursor-pointer z-[1] max-h-full  duration-500 ease-in-out"
+                  style={imgStyle.value}
+                  src={state.imgUrl[state.index]}
+                  alt=""
+                  onLoad={addEvent}
+                />
+                <div
+                  class="absolute z-[2] p-3 left-2 bg-black/20 text-white hang i-left !text-3xl"
+                  onClick={() => {
+                    reset()
+                    if (state.index > 0) {
+                      state.index -= 1
+                    } else {
+                      state.index = state.imgUrl.length - 1
+                    }
+                  }}
+                ></div>
+                <div
+                  class="absolute z-[2] p-3 right-2 bg-black/20 text-white hang i-next !text-3xl"
+                  onClick={() => {
+                    reset()
+                    if (state.index < state.imgUrl.length - 1) {
+                      state.index += 1
+                    } else {
+                      state.index = 0
+                    }
+                  }}
+                ></div>
+              </>
+            )}
           </div>
         </Transition>
       </>
@@ -101,7 +143,7 @@ type IConfig = {
   closeOnClickModel?: boolean
   closeOnPressEscape?: boolean
 }
-export default (url: string, config?: IConfig) => {
+export default (url: string | string[], config?: IConfig) => {
   const div = document.createElement('div')
   document.body.appendChild(div)
   const app = createApp(App, {
