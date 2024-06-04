@@ -1,23 +1,27 @@
-/*
- * @Description:
- * @Author: HYH
- * @LastEditors: HYH
- * @LastEditTime: 2023-07-18 09:44:05
- */
-
 import { RouteRecordRaw } from 'vue-router'
 
-const routes: RouteRecordRaw[] = [
+export const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: {
-      name: 'welcome',
-      query: {
-        appName: 'koa',
-      },
-    },
+    redirect: '/layout',
   },
-
+  {
+    path: '/layout',
+    name: 'layout',
+    redirect: '/layout/dashboard',
+    component: () => import('@/layout/index.vue'),
+    children: [
+      // {
+      //   path: 'dashboard',
+      //   name: 'dashboard',
+      //   component: () => import('@/views/dashboard/index.vue'),
+      //   meta: {
+      //     title: 'dashboard',
+      //   },
+      // },
+    ],
+  },
+  /***************************   独立页面   *****************************/
   {
     path: '/welcome',
     name: 'welcome',
@@ -27,18 +31,11 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: () => import('@/views/dashboard/index.vue'),
-    meta: {
-      title: 'dashboard',
-    },
-  },
-  {
     path: '/login',
     name: 'login',
     component: () => import('@/views/login/index.vue'),
     meta: {
+      spa: true,
       title: 'login',
     },
   },
@@ -47,6 +44,7 @@ const routes: RouteRecordRaw[] = [
     name: 'forgetPassword',
     component: () => import('@/views/login/forgetPassword.vue'),
     meta: {
+      spa: true,
       title: '重置密码',
     },
   },
@@ -55,30 +53,8 @@ const routes: RouteRecordRaw[] = [
     name: 'register',
     component: () => import('@/views/login/register.vue'),
     meta: {
+      spa: true,
       title: '注册',
-    },
-  },
-  {
-    path: '/onlineEditor',
-    name: 'onlineEditor',
-    redirect: {
-      name: 'project',
-    },
-  },
-  {
-    path: '/project',
-    name: 'project',
-    component: () => import('@/views/onlineEditor/components/project.vue'),
-    meta: {
-      title: '项目列表',
-    },
-  },
-  {
-    path: '/editor',
-    name: 'editor',
-    component: () => import('@/views/onlineEditor/components/editor.vue'),
-    meta: {
-      title: '编辑器',
     },
   },
 
@@ -87,9 +63,9 @@ const routes: RouteRecordRaw[] = [
     name: '404',
     component: () => import('@/views/error/404.vue'),
     meta: {
+      spa: true,
       title: '404',
     },
   },
+  /*************************** 独立页面 end *****************************/
 ]
-
-export default routes

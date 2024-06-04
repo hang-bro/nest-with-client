@@ -1,7 +1,6 @@
 import { ElButton } from 'element-plus'
 import C1, { IAdd } from './components/1'
 import Loading from '@/components/loading/index.vue'
-import tsx from './components/1.tsx?raw'
 export default defineComponent({
   setup() {
     const count = ref(0)

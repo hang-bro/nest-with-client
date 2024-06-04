@@ -6,7 +6,7 @@
 -->
 <template>
   <ElConfigProvider :locale="locale">
-    <Layout />
+    <router-view />
   </ElConfigProvider>
 </template>
 <script setup lang="ts">

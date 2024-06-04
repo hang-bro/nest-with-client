@@ -14,11 +14,11 @@ module.exports = {
     preflight: false,
   },
   plugins: [
-    require('daisyui'),
+    // require('daisyui'),
   ],
   theme: {
     daisyui: {
-      themes: ["light", "cyberpunk", "dark", "cupcake"],
+      // themes: ["light", "cyberpunk", "dark", "cupcake"],
     },
     extend: {
       colors: {

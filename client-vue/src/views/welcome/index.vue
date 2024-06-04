@@ -9,7 +9,8 @@
     <div class="relative isolate px-6 pt-14 lg:px-8">
       <div
         class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div
           class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
           style="
@@ -31,12 +32,14 @@
               76.1% 97.7%,
               74.1% 44.1%
             );
-          "></div>
+          "
+        ></div>
       </div>
       <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
         <div class="hidden sm:mb-8 sm:flex sm:justify-center">
           <div
-            class="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+            class="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20"
+          >
             更多页面持续更新
             <a class="font-semibold text-indigo-600"
               ><span class="absolute inset-0" aria-hidden="true"></span>查看更多
@@ -49,7 +52,8 @@
           <div class="mt-10 flex items-center justify-center gap-x-6">
             <a
               href="#dashboard"
-              class="rounded-md w-[200px] bg-indigo-600 opacity-90 hover:opacity-100 p-2 shadow-sm text-white font-bold text-2xl">
+              class="rounded-md w-[200px] bg-indigo-600 opacity-90 hover:opacity-100 p-2 shadow-sm text-white font-bold text-2xl"
+            >
               Go
             </a>
           </div>

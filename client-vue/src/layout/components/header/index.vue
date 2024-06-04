@@ -1,11 +1,12 @@
 <template>
   <header
-    class="z-10 h-[50px] flex items-center bg-white justify-center shadow-lg animate__animated animate__fadeInDown"
+    class="h-14 bg-gray-300 z-10 flex items-center justify-center shadow-lg animate__animated animate__fadeInDown"
   >
     <div class="w-full px-3 flex items-center max-w-6xl justify-between text-gray-500 font-semibold">
-      <div id="site-name" class="uppercase font-bold text-black text-lg opacity-0 sm:opacity-100">
-        hang-bro
+      <div class="text-xl cursor-pointer" @click="$emit('collapse')">
+        <el-icon><Operation /></el-icon>
       </div>
+
       <div class="flex gap-3 items-center">
         <Search />
         <span
@@ -47,6 +48,8 @@
   </header>
 </template>
 <script lang="ts" setup>
+import { Operation } from '@element-plus/icons-vue'
+
 import useErrorImg from '@/hooks/useErrorImg'
 import { ITheme, availableThemes } from '@/store/config'
 import { useStore } from '@/hooks/useStore'
