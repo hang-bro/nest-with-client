@@ -9,6 +9,7 @@ import { UploadModule } from './upload/upload.module';
 import { UserModule } from './user/user.module';
 import { MailerModule } from './mailer/mailer.module';
 import { TranslateModule } from './translate/translate.module';
+import { GithubModule } from './github/github.module';
 import { AppController } from './app.controller';
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AppController } from './app.controller';
     PrismaModule,
     CryptoModule,
     TranslateModule,
+    GithubModule,
   ],
   controllers: [AppController],
   providers: [],
