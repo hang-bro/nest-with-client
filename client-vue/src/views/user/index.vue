@@ -5,7 +5,7 @@
  * @LastEditTime: 2023-07-18 10:16:15
 -->
 <template>
-  <main class="w-full h-full">
+  <div class="w-full h-full">
     <ProTable ref="ProTableRef" v-bind="proTableProps">
       <template #actions="{ tableCheck, handleDelete, icons }">
         <el-button type="primary" @click="handleAdd" :icon="icons.Plus">新增</el-button>
@@ -14,11 +14,7 @@
         </el-button>
       </template>
       <template #avatar="{ row, viewImg }">
-        <el-image
-          class="w-10 aspect-square cursor-pointer"
-          :src="row.avatar"
-          @click="viewImg({ url: row.avatar })"
-        />
+        <el-image class="w-10 aspect-square cursor-pointer" :src="row.avatar" @click="viewImg(row.avatar)" />
       </template>
       <template #option="{ row, handleDelete }">
         <el-button @click="handleDelete(row.id)" link type="danger">删除</el-button>
@@ -31,7 +27,7 @@
       </template>
     </ProTable>
     <AddAndEditDialog @getList="getList" v-model:show="addAndEditDialog.show" v-bind="addAndEditDialog" />
-  </main>
+  </div>
 </template>
 <script lang="ts" setup>
 import { http } from '@/http'

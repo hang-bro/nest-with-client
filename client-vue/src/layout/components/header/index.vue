@@ -7,12 +7,8 @@
       </div>
 
       <div class="flex gap-3 items-center">
-        <a href="https://github.com/hang-bro/nest-with-client" target="_blank">
-          <github theme="outline" size="24" fill="#333" />
-        </a>
-        <span
-          class="ml-2 cursor-pointer text-black hidden sm:block max-w-[120px] overflow-hidden text-ellipsis"
-        >
+       
+        <span class="cursor-pointer text-black hidden sm:block max-w-[120px] overflow-hidden text-ellipsis">
           {{ user.username }}
         </span>
         <div>
@@ -44,6 +40,9 @@
             </template>
           </el-dropdown>
         </div>
+        <a href="https://github.com/hang-bro/nest-with-client" target="_blank">
+          <github theme="outline" size="24" fill="#333" />
+        </a>
       </div>
     </div>
   </header>

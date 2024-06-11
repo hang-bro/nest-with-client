@@ -43,6 +43,8 @@ import { onClickOutside } from '@vueuse/core'
 import { $routes } from '@/router'
 import useKeyDown from '@/hooks/useKeyDown'
 import { useRouter } from 'vue-router'
+const searchList = $routes.filter((r) => r.name == 'layout')[0].children
+
 const router = useRouter()
 const searchRef = ref<HTMLDivElement>()
 const searchScrollRef = ref<HTMLElement>()
@@ -50,11 +52,11 @@ onClickOutside(searchRef, () => {
   state.showSearchList = false
   state.selectIndex = 0
   state.searchValue = ''
-  state.searchList = $routes
+  state.searchList = searchList
 })
 
 const state = reactive({
-  searchList: $routes,
+  searchList: searchList,
   showSearchList: false,
   searchValue: '',
   selectIndex: 0,
@@ -62,8 +64,8 @@ const state = reactive({
 
 const onSearch = () => {
   state.searchList = []
-  // @ts-ignore
-  $routes.map((item) => {
+  searchList.map((item) => {
+    // @ts-ignore
     if (item.name.indexOf(state.searchValue) != -1) {
       state.searchList.push(item)
     }
@@ -88,7 +90,7 @@ useKeyDown((e) => {
     })
 
     const { name, path } = state.searchList[state.selectIndex]
-
+    // @ts-ignore
     state.searchValue = name
 
     if (e.key == 'Enter') router.push(path)

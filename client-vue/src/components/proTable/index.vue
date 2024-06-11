@@ -1,5 +1,5 @@
 <template>
-  <main class="w-full h-full p-5 flex flex-col bg-gray-100" ref="mainRef">
+  <main class="w-full h-full flex flex-col" ref="mainRef">
     <!-- 搜索区域 -->
     <section class="hidden sm:block my-2 animate__animated animate__flipInX" v-show="showSearch">
       <SearchForm :searchForm="searchForm" :getList="getList" :reset="reset" :loading="loading" />

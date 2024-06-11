@@ -9,6 +9,7 @@
       <header
         id="site-name"
         v-if="!isCollapse"
+        @click="$router.push('dashboard')"
         class="z-10 sticky top-0 border-b h-14 text-2xl font-semibold flex items-center justify-center whitespace-nowrap animate__animated animate__fadeInLeft bg-white"
       >
         <div class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Hang-bro</div>

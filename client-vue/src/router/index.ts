@@ -33,7 +33,6 @@ function autoGenerateRouted(routes: RouteRecordRaw[]): RouteRecordRaw[] {
 
   const index = routes.findIndex((r) => r.name == 'layout')
   routes[index].children = targetRoutes
-  console.log(`routes ==>`, routes)
   return routes
 }
 

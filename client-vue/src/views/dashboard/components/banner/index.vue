@@ -1,9 +1,8 @@
 <template>
   <div class="flex-1 overflow-hidden animate__animated animate__fadeInLeft" ref="mainRef">
-    <!--  Swiper  -->
     <div class="p-5 shadow-xl rounded-xl bg-gray-50 overflow-hidden">
       <div>
-        <el-carousel motion-blur height="350px" :interval="5000">
+        <el-carousel motion-blur height="150px" :interval="10000">
           <el-carousel-item v-for="item in imgs" :key="item">
             <img loading="lazy" class="w-full h-full object-cover" :src="item.url" alt="" />
           </el-carousel-item>

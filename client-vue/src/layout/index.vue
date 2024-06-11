@@ -7,9 +7,9 @@
 <template>
   <main class="w-screen h-screen bg-gray-50/50 flex">
     <Menu v-model:isCollapse="isCollapse" />
-    <div class="flex-1 flex flex-col">
+    <div class="flex-1 flex flex-col overflow-hidden bg-gray-100">
       <Header class="h-14 bg-gray-50" @collapse="isCollapse = !isCollapse" />
-      <div class="flex-1 overflow-auto">
+      <div class="flex-1 overflow-auto p-2">
         <RouterView v-slot="{ Component, route: { meta } }">
           <!-- @vue-ignore -->
           <Transition
@@ -32,7 +32,6 @@
           </Transition>
         </RouterView>
       </div>
-      <Footer />
     </div>
   </main>
 
@@ -48,12 +47,7 @@
 import { Back } from '@icon-park/vue-next'
 import { useRoute } from 'vue-router'
 import Header from './components/header/index.vue'
-import Footer from './components/footer/index.vue'
-import Main from './components/main/index.vue'
-import Side from './components/side/index.vue'
-
 import Menu from './components/menu/index.vue'
-// import Header from './components/header.vue'
 import { useIntroduce } from './index'
 const isCollapse = ref(false)
 
