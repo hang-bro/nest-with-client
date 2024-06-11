@@ -220,7 +220,6 @@ const uploadSingleFile = () => {
 
   formData.append('file', file.raw)
 
-
   http
     .upload(props.action, formData, {
       onUploadProgress: (progressEvent) => {
@@ -248,6 +247,18 @@ const uploadSingleFile = () => {
 }
 
 const handleChange: ElUploadProps['onChange'] = async (file) => {
+  console.log(`file ==>`,file)
+
+  const img = new Image()
+  const reader = new FileReader()
+  reader.readAsDataURL(file.raw)
+  reader.onload = function (e) {
+    img.src = e.target.result
+  }
+  img.onload = function () {
+    console.log(`e ==>`, { with: img.width, height: img.height, name: file.name, size: file.size })
+  }
+  img.onerror = function (e) {}
   // 如果正在上传中，直接添加到待上传列表中
   if (state.uploadFlag) {
     return state.waitUploadList.push(file)

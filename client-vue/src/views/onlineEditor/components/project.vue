@@ -5,7 +5,7 @@
  * @LastEditTime: 2023-07-18 09:45:32
 -->
 <template>
-  <main class=" w-screen h-screen flex flex-col p-5  rounded-xl overflow-auto">
+  <main class=" w-full h-full  flex flex-col p-5  rounded-xl overflow-auto">
     <!-- 项目列表 -->
     <header class="font-bold text-2xl pl-2">项目列表</header>
     <div class=" flex flex-wrap items-center justify-between">

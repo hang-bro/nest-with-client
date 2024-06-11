@@ -7,12 +7,12 @@
 // 导入router所需的方法
 import { RouteRecordRaw, createRouter, createWebHashHistory } from 'vue-router'
 
-import { useStore } from '@/hooks/useStore'
 import { routes } from './routes'
 
 function autoGenerateRouted(routes: RouteRecordRaw[]): RouteRecordRaw[] {
   const modules = import.meta.glob('../views/**/index.{vue,tsx,jsx}')
 
+  /**判断是否独立页面 */
   const spas = routes.filter((route) => route.meta?.spa).map((i) => i.name)
 
   const targetRoutes: RouteRecordRaw[] = []
@@ -37,35 +37,13 @@ function autoGenerateRouted(routes: RouteRecordRaw[]): RouteRecordRaw[] {
   return routes
 }
 
-const _routes = []
-/*const modules = import.meta.glob('../views/~~/index.{vue,tsx,jsx}')
-// 循环进入路由
-for (let key in modules) {
-  const name = key.split('../views/').pop().split('/')[0]
-  const ext = key.split('.').pop()
-  if (!routes.find((i) => i.path == `/${name}`)) {
-    routes.push({
-      path: `/${name}`,
-      name: name,
-      component: () => import(`@/views/${name}/index.${ext}`),
-    })
-    _routes.push({
-      path: `/${name}`,
-      name: name,
-      component: () => import(`@/views/${name}/index.${ext}`),
-    })
-  }
-}*/
-
-export const $routes = _routes
-
-// console.log(`routes ==>`,routes);
+export const $routes = autoGenerateRouted(routes)
 
 // 路由参数配置
 const router = createRouter({
   // 使用hash(createWebHashHistory)模式，(createWebHistory是HTML5历史模式，支持SEO)
   history: createWebHashHistory(),
-  routes: autoGenerateRouted(routes),
+  routes: $routes,
   // routes: routes,
 })
 

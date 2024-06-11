@@ -5,11 +5,11 @@
  * @LastEditTime: 2023-07-28 20:03:56
 -->
 <template>
-  <main class="w-full h-full bg-gray-50/50 flex">
+  <main class="w-screen h-screen bg-gray-50/50 flex">
     <Menu v-model:isCollapse="isCollapse" />
-    <main class="flex-1 flex flex-col">
+    <div class="flex-1 flex flex-col">
       <Header class="h-14 bg-gray-50" @collapse="isCollapse = !isCollapse" />
-      <main class="flex-1">
+      <div class="flex-1 overflow-auto">
         <RouterView v-slot="{ Component, route: { meta } }">
           <!-- @vue-ignore -->
           <Transition
@@ -24,16 +24,16 @@
               <component :is="Component"></component>
               <!-- 加载中状态 -->
               <template #fallback>
-                <main class="w-screen h-screen absolute">
+                <main class="w-full h-full absolute">
                   <el-skeleton :rows="10" animated />
                 </main>
               </template>
             </Suspense>
           </Transition>
         </RouterView>
-      </main>
-      <footer>页脚信息</footer>
-    </main>
+      </div>
+      <Footer />
+    </div>
   </main>
 
   <div

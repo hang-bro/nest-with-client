@@ -5,7 +5,7 @@
  * @LastEditTime: 2023-06-26 13:18:23
 -->
 <template>
-  <main class="w-screen h-screen bg-none" ref="mainRef">
+  <main class="w-screen h-screen  bg-none" ref="mainRef">
     <div class="relative isolate px-6 pt-14 lg:px-8">
       <div
         class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"

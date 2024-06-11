@@ -5,7 +5,7 @@
  * @LastEditTime: 2023-06-08 20:57:13
 -->
 <template>
-  <main class="w-screen h-screen flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <main class="w-screen h-screen  flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <el-form
         status-icon

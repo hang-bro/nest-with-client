@@ -1,5 +1,5 @@
 <template>
-  <main class="p-3 w-screen h-screen bg-none">
+  <main class="p-3 w-full h-full  bg-none">
     <!-- <a href="https://github.com/zhaotbj/webrtc-tian-demo">github</a> -->
     <div>
       <button class="bg-gray-400">

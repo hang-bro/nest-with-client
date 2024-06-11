@@ -5,7 +5,7 @@
  * @LastEditTime: 2023-07-18 10:02:35
 -->
 <template>
-  <main class=" w-screen h-screen py-3 flex-1 flex bg-white rounded-md overflow-auto overflow-x-hidden">
+  <main class=" w-full h-full  py-3 flex-1 flex bg-white rounded-md overflow-auto overflow-x-hidden">
     <!--tree -->
     <div class="min-w-[250px] overflow-auto" v-if="data">
       <!-- @vue-ignore -->

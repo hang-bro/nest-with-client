@@ -1,9 +1,10 @@
 <template>
-  <main class="w-screen h-screen overflow-auto">
+  <main class="w-full h-full overflow-auto">
     <div v-for="item in 5">
       <div
         class="parallax flex items-center justify-center text-[50px] text-white"
-        :style="`background-image:url(http://192.168.5.240:2333/download/hotPic/${item}.jpg)`">
+        :style="`background-image:url(http://192.168.5.240:2333/download/hotPic/${item}.jpg)`"
+      >
         <div class="">dengta</div>
       </div>
       <div class="content">
@@ -13,8 +14,7 @@
     </div>
   </main>
 </template>
-<script lang="ts" setup>
-</script>
+<script lang="ts" setup></script>
 <style lang="scss" scoped>
 main {
   &::-webkit-scrollbar {

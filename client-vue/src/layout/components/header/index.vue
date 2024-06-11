@@ -1,14 +1,15 @@
 <template>
-  <header
-    class="h-14 bg-gray-300 z-10 flex items-center justify-center shadow-lg animate__animated animate__fadeInDown"
-  >
-    <div class="w-full px-3 flex items-center max-w-6xl justify-between text-gray-500 font-semibold">
-      <div class="text-xl cursor-pointer" @click="$emit('collapse')">
-        <el-icon><Operation /></el-icon>
+  <header class="h-14 z-10 flex items-center justify-center border-b animate__animated animate__fadeInDown">
+    <div class="w-full px-3 flex items-center justify-between text-gray-500 font-semibold">
+      <div class="text-2xl cursor-pointer flex items-center justify-center gap-5 hover:text-black">
+        <el-icon @click="$emit('collapse')"><Operation /></el-icon>
+        <Search />
       </div>
 
       <div class="flex gap-3 items-center">
-        <Search />
+        <a href="https://github.com/hang-bro/nest-with-client" target="_blank">
+          <github theme="outline" size="24" fill="#333" />
+        </a>
         <span
           class="ml-2 cursor-pointer text-black hidden sm:block max-w-[120px] overflow-hidden text-ellipsis"
         >
@@ -49,7 +50,7 @@
 </template>
 <script lang="ts" setup>
 import { Operation } from '@element-plus/icons-vue'
-
+import { Github } from '@icon-park/vue-next'
 import useErrorImg from '@/hooks/useErrorImg'
 import { ITheme, availableThemes } from '@/store/config'
 import { useStore } from '@/hooks/useStore'

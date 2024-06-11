@@ -56,6 +56,6 @@ onErrorCaptured((err) => {
 </script>
 <style>
 #app {
-  @apply w-screen h-screen overflow-visible relative;
+  @apply w-full h-full  overflow-visible relative;
 }
 </style>

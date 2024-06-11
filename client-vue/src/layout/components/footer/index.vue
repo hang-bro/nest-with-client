@@ -1,6 +1,5 @@
 <template>
-  <footer
-    class="h-[50px] cursor-pointer flex items-center justify-center text-gray-500 animate__animated animate__fadeInUp">
+  <footer class="h-[50px] cursor-pointer flex items-center justify-center text-gray-500">
     <div class="max-w-5xl text-sm text-gray-400 text-hover flex justify-center items-center">
       <div @click="getText">「{{ state.text }}」</div>
       <div class="hidden text-center text-xs items-center transition-all duration-500">

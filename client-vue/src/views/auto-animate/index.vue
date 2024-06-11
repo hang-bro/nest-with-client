@@ -39,7 +39,7 @@ const randomize3 = () => numbers3.value.sort(() => (Math.random() > 0.5 ? 1 : -1
 </script>
 
 <template>
-  <main class="w-screen h-screen overflow-auto">
+  <main class="w-full h-full  overflow-auto">
     <section>
       <h1 class="font-bold text-2xl m-2">示例一</h1>
       <div class="flex items-center flex-wrap" v-auto-animate="{ duration: 500 }">

@@ -1,5 +1,5 @@
 <template>
-  <main class="w-screen h-screen p-5 bg-[#cccc]" style="background-image: none">
+  <main class="w-full h-full  p-5 bg-[#cccc]" style="background-image: none">
     <button class="test">test</button>
     <div class="box1 cursor-pointer m-3 flex items-center justify-center text-gray-400 select-none">box1</div>
     <div class="box2 cursor-pointer m-3 flex items-center justify-center text-gray-400 select-none">box2</div>
