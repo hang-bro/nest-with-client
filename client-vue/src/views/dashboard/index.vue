@@ -1,6 +1,6 @@
 <template>
   <main class="w-full h-full">
-    <!-- <Banner/> -->
+    <Banner/>
     <div style="height: 300px; max-width: 600px">
       <el-steps align-center direction="vertical" class="">
         <el-step :title="item.message" v-for="item in steps">
