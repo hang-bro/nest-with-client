@@ -31,7 +31,7 @@ const App: globalThis.Component = {
           alignCenter
           beforeClose={destroy}
           modelValue={show.value}
-          width={800}
+          width={900}
         >
           {{
             header: () => (
