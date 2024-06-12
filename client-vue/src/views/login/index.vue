@@ -5,7 +5,7 @@
  * @LastEditTime: 2023-06-08 10:52:05
 -->
 <template>
-  <main class="w-screen h-screen  flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <main class="w-screen h-screen flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <el-form
         status-icon
@@ -14,7 +14,8 @@
         label-position="top"
         :model="loginForm"
         :rules="rules"
-        class="bg-white/40 rounded-2xl shadow-2xl p-7 pt-10">
+        class="bg-white/40 rounded-2xl shadow-2xl p-7 pt-10"
+      >
         <el-form-item>
           <div class="w-full font-bold text-[30px] text-center text-bg">登 录</div>
         </el-form-item>
@@ -31,7 +32,8 @@
                 style="width: 150px"
                 :src="getCaptchaUrl"
                 alt=""
-                @click="(e:any)=>e.target.src = getCaptchaUrl + `?timeStamp=${Date.now()}`" />
+                @click="(e:any)=>e.target.src = getCaptchaUrl + `?timeStamp=${Date.now()}`"
+              />
             </template>
           </el-input>
         </el-form-item>
@@ -88,7 +90,7 @@ const login = () => {
         store.setToken(data.token)
         http.get<IUser>('/login/getInfo').then((res) => {
           store.setInfo(res.data)
-          router.push({ path: '/dashboard', replace: true })
+          router.push({ path: '/layout', replace: true })
         })
       })
     }

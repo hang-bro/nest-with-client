@@ -1,68 +1,61 @@
 <template>
-  <header class="h-14 z-10 flex items-center justify-center border-b animate__animated animate__fadeInDown">
-    <div class="w-full px-3 flex items-center justify-between text-gray-500 font-semibold">
-      <div class="text-2xl cursor-pointer flex items-center justify-center gap-5 hover:text-black">
-        <el-icon @click="$emit('collapse')"><Operation /></el-icon>
-        <Search />
+  <header class="bg-white flex items-center justify-center border-b animate__animated animate__fadeInDown">
+    <!-- logo -->
+    <section
+      id="site-name"
+      @click="$router.push('dashboard')"
+      class="h-full mx-5 text-3xl font-semibold whitespace-nowrap"
+    >
+      <div
+        class="h-full flex items-center justify-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"
+      >
+        Hang-bro
       </div>
+    </section>
+    <!-- logo end-->
 
-      <div class="flex gap-3 items-center">
-       
-        <span class="cursor-pointer text-black hidden sm:block max-w-[120px] overflow-hidden text-ellipsis">
-          {{ user.username }}
-        </span>
-        <div>
-          <el-dropdown trigger="click">
-            <!-- 头像 -->
-            <img
-              :src="user.avatar"
-              class="w-[40px] h-[40px] cursor-pointer rounded-full object-cover"
-              @error="useErrorImg"
-            />
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-        </div>
-
-        <!-- theme -->
-        <div class="flex cursor-pointer" id="theme-change">
-          <el-dropdown @command="(theme:ITheme) => config.setTheme(theme)" size="large">
-            <span class="el-dropdown-link"> 主题 </span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item :command="theme" v-for="theme in availableThemes">
-                  {{ theme }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-        </div>
+    <section class="w-full pr-5 flex items-center justify-between font-semibold">
+      <!-- Search -->
+      <Search />
+      <!-- Search end -->
+      <div class="flex gap-5 items-center">
         <a href="https://github.com/hang-bro/nest-with-client" target="_blank">
-          <github theme="outline" size="24" fill="#333" />
+          <GithubOne theme="outline" size="22" fill="#333" />
         </a>
+        <div>
+          <!-- 头像 -->
+          <img
+            :src="user.avatar"
+            class="w-12 p-1 aspect-square cursor-pointer rounded-full object-cover border"
+            @error="useErrorImg"
+          />
+        </div>
+        <div class="cursor-pointer text-sm max-w-[100px]">
+          <div class="overflow-hidden text-ellipsis whitespace-nowrap" :title="user.username">
+            {{ user.username }}
+          </div>
+          <div class="text-blue-500" @click="logout">退出登录</div>
+        </div>
       </div>
-    </div>
+    </section>
   </header>
 </template>
 <script lang="ts" setup>
-import { Operation } from '@element-plus/icons-vue'
-import { Github } from '@icon-park/vue-next'
+import { ElMessageBox } from 'element-plus'
+
 import useErrorImg from '@/hooks/useErrorImg'
-import { ITheme, availableThemes } from '@/store/config'
 import { useStore } from '@/hooks/useStore'
 import router from '@/router'
+import { GithubOne } from '@icon-park/vue-next'
 import Search from './search.vue'
 const user = useStore((store) => store.user)
-const config = useStore((store) => store.config)
 const logout = () => {
-  useStore((s) => {
-    s.user.$reset()
-    console.log(` s.user ==>`, s.user.$state)
-    s.config.$reset()
-    router.push('/login')
+  ElMessageBox.confirm('确认退出?', '提示').then(() => {
+    useStore((store) => {
+      store.user.$reset()
+      store.config.$reset()
+      router.push('/login')
+    })
   })
 }
 </script>

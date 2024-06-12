@@ -19,7 +19,7 @@ const state = reactive({
   from: '',
 })
 const getText = () => {
-  http.get<any>('/hitokoto').then((res: any) => {
+  http.get<any>('/hitokoto', {}, { animate: false }).then((res: any) => {
     state.text = res.data.hitokoto
     state.from = (res.data.from_who || '') + '-' + res.data.from
   })

@@ -6,10 +6,10 @@
 -->
 <template>
   <main class="w-screen h-screen bg-gray-50/50 flex">
-    <Menu v-model:isCollapse="isCollapse" />
+    <!-- <Menu v-model:isCollapse="isCollapse" /> -->
     <div class="flex-1 flex flex-col overflow-hidden bg-gray-100">
       <Header class="h-14 bg-gray-50" @collapse="isCollapse = !isCollapse" />
-      <div class="flex-1 overflow-auto p-2">
+      <div class="flex-1 overflow-hidden p-2">
         <RouterView v-slot="{ Component, route: { meta } }">
           <!-- @vue-ignore -->
           <Transition
