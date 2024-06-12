@@ -1,7 +1,7 @@
 <template>
   <main class="w-full h-full flex flex-col" ref="mainRef">
     <!-- 搜索区域 -->
-    <section class="hidden sm:block my-2 animate__animated animate__flipInX" v-show="showSearch">
+    <section class="hidden sm:block mb-2 animate__animated animate__flipInX" v-show="showSearch">
       <SearchForm :searchForm="searchForm" :getList="getList" :reset="reset" :loading="loading" />
     </section>
     <!-- 搜索区域 end-->
@@ -97,8 +97,9 @@
     </el-card>
 
     <!-- 分页区域 -->
-    <section class="flex mt-5 justify-end hidden sm:block">
+    <section class="py-5 hidden sm:block">
       <el-pagination
+        class="flex justify-end"
         background
         v-model:current-page="pageIndex"
         v-model:page-size="pageSize"

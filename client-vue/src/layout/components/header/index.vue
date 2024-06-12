@@ -26,6 +26,7 @@
           <!-- 头像 -->
           <img
             :src="user.avatar"
+            @click="viewImg(user.avatar)"
             class="w-12 p-1 aspect-square cursor-pointer rounded-full object-cover border"
             @error="useErrorImg"
           />
@@ -48,6 +49,7 @@ import { useStore } from '@/hooks/useStore'
 import router from '@/router'
 import { GithubOne } from '@icon-park/vue-next'
 import Search from './search.vue'
+import viewImg from '@/utils/viewImg'
 const user = useStore((store) => store.user)
 const logout = () => {
   ElMessageBox.confirm('确认退出?', '提示').then(() => {
