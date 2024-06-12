@@ -11,6 +11,7 @@ import { MailerModule } from './mailer/mailer.module';
 import { TranslateModule } from './translate/translate.module';
 import { GithubModule } from './github/github.module';
 import { AppController } from './app.controller';
+import { ComputerModule } from './computer/computer.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -26,6 +27,7 @@ import { AppController } from './app.controller';
     CryptoModule,
     TranslateModule,
     GithubModule,
+    ComputerModule,
   ],
   controllers: [AppController],
   providers: [],

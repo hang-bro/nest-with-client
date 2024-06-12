@@ -34,5 +34,8 @@ const steps = ref<ISteps[]>([])
 http.get('/github/log').then((res) => {
   steps.value = res.data
 })
+http.get('/computer').then((res) => {
+  console.log(`res ==>`,JSON.parse(JSON.stringify(res)));
+})
 </script>
 <style lang="scss" scoped></style>
