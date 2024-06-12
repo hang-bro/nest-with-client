@@ -4,7 +4,6 @@ import axios from 'axios';
 @Injectable()
 export class GithubService {
   constructor() {}
-  // private readonly accessToken = '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';
   private readonly accessToken = '';
   private readonly owner = 'hang-bro';
   private readonly repo = 'nest-with-client';
