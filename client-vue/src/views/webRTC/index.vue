@@ -1,18 +1,14 @@
 <template>
-  <main class="p-3 w-full h-full  bg-none">
+  <main class="p-3 w-full h-full bg-none">
     <!-- <a href="https://github.com/zhaotbj/webrtc-tian-demo">github</a> -->
     <div>
-      <button class="bg-gray-400">
-        <span class="sp">Register</span>
-      </button>
+      <span class="sp">Register</span>
     </div>
 
-    <div class="container">
-      <div class="toggle">
-        <input type="checkbox" />
-        <span class="button"></span>
-        <span class="label">☼</span>
-      </div>
+    <div class="toggle">
+      <input type="checkbox" />
+      <span class="button"></span>
+      <span class="label">☼</span>
     </div>
   </main>
 </template>
@@ -27,8 +23,6 @@ onMounted(() => {})
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
-  display: block;
 }
 .toggle {
   display: inline-block;
@@ -56,7 +50,9 @@ onMounted(() => {})
 
 .toggle .button {
   transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
-  box-shadow: 0 15px 25px -4px rgba(0, 0, 0, 0.5), inset 0 -3px 4px -1px rgba(0, 0, 0, 0.2), 0 -10px 15px -1px rgba(255, 255, 255, 0.6), inset 0 3px 4px -1px rgba(255, 255, 255, 0.2), inset 0 0 5px 1px rgba(255, 255, 255, 0.8), inset 0 20px 30px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 15px 25px -4px rgba(0, 0, 0, 0.5), inset 0 -3px 4px -1px rgba(0, 0, 0, 0.2),
+    0 -10px 15px -1px rgba(255, 255, 255, 0.6), inset 0 3px 4px -1px rgba(255, 255, 255, 0.2),
+    inset 0 0 5px 1px rgba(255, 255, 255, 0.8), inset 0 20px 30px 0 rgba(255, 255, 255, 0.2);
   border-radius: 68.8px;
   position: absolute;
   background: #eaeaea;
@@ -96,7 +92,9 @@ onMounted(() => {})
 
 .toggle input:active ~ .button {
   filter: blur(0.5px);
-  box-shadow: 0 12px 25px -4px rgba(0, 0, 0, 0.4), inset 0 -8px 30px 1px rgba(255, 255, 255, 0.9), 0 -10px 15px -1px rgba(255, 255, 255, 0.6), inset 0 8px 25px 0 rgba(0, 0, 0, 0.4), inset 0 0 10px 1px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 12px 25px -4px rgba(0, 0, 0, 0.4), inset 0 -8px 30px 1px rgba(255, 255, 255, 0.9),
+    0 -10px 15px -1px rgba(255, 255, 255, 0.6), inset 0 8px 25px 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 10px 1px rgba(255, 255, 255, 0.6);
 }
 
 .toggle input:active ~ .label {
@@ -106,11 +104,12 @@ onMounted(() => {})
 
 .toggle input:checked ~ .button {
   filter: blur(0.5px);
-  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.4), inset 0 -8px 25px -1px rgba(255, 255, 255, 0.9), 0 -10px 15px -1px rgba(255, 255, 255, 0.6), inset 0 8px 20px 0 rgba(0, 0, 0, 0.2), inset 0 0 5px 1px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.4), inset 0 -8px 25px -1px rgba(255, 255, 255, 0.9),
+    0 -10px 15px -1px rgba(255, 255, 255, 0.6), inset 0 8px 20px 0 rgba(0, 0, 0, 0.2),
+    inset 0 0 5px 1px rgba(255, 255, 255, 0.6);
 }
 
 .toggle input:checked ~ .label {
   color: rgba(0, 0, 0, 0.8);
 }
-
 </style>

@@ -10,7 +10,7 @@ import { RouteRecordRaw, createRouter, createWebHashHistory } from 'vue-router'
 import { routes } from './routes'
 
 function autoGenerateRouted(routes: RouteRecordRaw[]): RouteRecordRaw[] {
-  const modules = import.meta.glob('../views/**/index.{vue,tsx,jsx}')
+  const modules = import.meta.glob('../views/*/index.{vue,tsx,jsx}')
 
   /**判断是否独立页面 */
   const spas = routes.filter((route) => route.meta?.spa).map((i) => i.name)

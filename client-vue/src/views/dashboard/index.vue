@@ -1,7 +1,7 @@
 <template>
   <main class="w-full h-full overflow-auto">
     <Title />
-    <Banner />
+    <!-- <Banner /> -->
     <!-- <Charts /> -->
     <!-- <Footer /> -->
   </main>

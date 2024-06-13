@@ -24,9 +24,9 @@
         </a>
         <div>
           <!-- 头像 -->
+          <!-- @click="viewImg(user.avatar)" -->
           <img
             :src="user.avatar"
-            @click="viewImg(user.avatar)"
             class="w-12 p-1 aspect-square cursor-pointer rounded-full object-cover border"
             @error="useErrorImg"
           />
