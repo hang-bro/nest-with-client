@@ -6,7 +6,6 @@
 -->
 <template>
   <main class="w-screen h-screen bg-gray-50/50 flex">
-    <!-- <Menu v-model:isCollapse="isCollapse" /> -->
     <div class="flex-1 flex flex-col overflow-hidden bg-gray-100">
       <Header class="h-14 bg-gray-50" @collapse="isCollapse = !isCollapse" />
       <div class="flex-1 overflow-hidden p-2">
@@ -32,22 +31,14 @@
           </Transition>
         </RouterView>
       </div>
+      <DragButton />
     </div>
   </main>
-
-  <!-- <div
-    class="absolute right-[50px] bottom-[50px] p-3 bg-slate-100/70 shadow-xl rounded-full cursor-pointer hover:translate-y-[-5px] transition-all"
-    @click="$router.back()"
-    v-if="showBackIcon"
-  >
-    <Back theme="outline" size="30" fill="#666666" />
-  </div> -->
 </template>
 <script setup lang="ts">
-import { Back } from '@icon-park/vue-next'
 import { useRoute } from 'vue-router'
 import Header from './components/header/index.vue'
-import Menu from './components/menu/index.vue'
+import DragButton from './components/dragButton/index.vue'
 import { useIntroduce } from './index'
 const isCollapse = ref(false)
 

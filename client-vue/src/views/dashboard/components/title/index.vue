@@ -15,7 +15,7 @@
             class="absolute right-3 top-3 text-gray-300"
             @click="getText"
           />
-          <h1 class="text-4xl font-bold">Welcome to Hang-bro!</h1>
+          <h1 class="text-gray-900 text-4xl font-bold">Welcome to Hang-bro!</h1>
           <div class="text-right text-gray-300" @click="useCopy(state.text)">
             {{ state.text }} <span class="text-xs"> {{ state.from }}</span>
           </div>
