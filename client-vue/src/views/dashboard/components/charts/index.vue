@@ -1,17 +1,17 @@
 <template>
   <main>
-    <div>
-      <p>操作系统: {{ data.system }}</p>
-      <p>架构: {{ data.architecture }}</p>
-      <p>CPU核数: {{ data.cpus }}</p>
-    </div>
-    <div ref="chart1Ref" style="width: 100%; height: 500px"></div>
+    <section class="flex gap-2">
+      <div ref="chart1Ref" style="width: 100%; height: 500px"></div>
+      <div ref="chart2Ref" style="width: 100%; height: 500px"></div>
+    </section>
   </main>
 </template>
 <script lang="ts" setup>
 import { http } from '@/http'
+
 import useECharts from '@/hooks/useECharts'
 const chart1Ref = ref(null)
+const chart2Ref = ref(null)
 
 const { data } = await http.get('/computer', {}, { animate: false })
 const options = (data) => {
@@ -47,7 +47,7 @@ const options = (data) => {
         },
         data: [
           // { value: parseFloat(data.totalMemory), name: '总内存' },
-          { value: parseFloat(data.usedMemory), name: '已使用内存', itemStyle: { color: '#ff7070' } },
+          { value: parseFloat(data.usedMemory), name: '已使用内存' },
           { value: parseFloat(data.freeMemory), name: '剩余内存' },
         ],
       },
@@ -55,18 +55,29 @@ const options = (data) => {
   }
 }
 
-let timer = null
+let timer1 = null
+let timer2 = null
 useECharts(chart1Ref, options(data), (instance) => {
   if (document.visibilityState == 'visible') {
-    timer = setInterval(async () => {
+    timer1 = setInterval(async () => {
+      const { data } = await http.get('/computer', {}, { animate: false })
+      instance.setOption(options(data))
+    }, 5000)
+  }
+})
+useECharts(chart2Ref, options(data), (instance) => {
+  if (document.visibilityState == 'visible') {
+    timer2 = setInterval(async () => {
       const { data } = await http.get('/computer', {}, { animate: false })
       instance.setOption(options(data))
     }, 5000)
   }
 })
 onUnmounted(() => {
-  clearInterval(timer)
-  timer = null
+  clearInterval(timer1)
+  clearInterval(timer2)
+  timer1 = null
+  timer2 = null
 })
 </script>
 <style lang="scss" scoped></style>

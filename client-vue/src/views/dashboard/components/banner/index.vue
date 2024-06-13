@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-hidden animate__animated animate__fadeInLeft" ref="mainRef">
+  <section class="flex-1 overflow-hidden animate__animated animate__fadeInLeft w-full" ref="mainRef">
     <div class="p-5 shadow-xl rounded-xl bg-gray-50 overflow-hidden">
       <div>
         <el-carousel motion-blur height="150px" :interval="10000">
@@ -9,7 +9,7 @@
         </el-carousel>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 <script lang="ts" setup>
 import { http } from '@/http'

@@ -35,13 +35,13 @@
     </div>
   </main>
 
-  <div
+  <!-- <div
     class="absolute right-[50px] bottom-[50px] p-3 bg-slate-100/70 shadow-xl rounded-full cursor-pointer hover:translate-y-[-5px] transition-all"
     @click="$router.back()"
     v-if="showBackIcon"
   >
     <Back theme="outline" size="30" fill="#666666" />
-  </div>
+  </div> -->
 </template>
 <script setup lang="ts">
 import { Back } from '@icon-park/vue-next'
