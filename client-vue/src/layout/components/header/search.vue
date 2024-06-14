@@ -1,20 +1,25 @@
 <template>
   <!-- 搜索 -->
-  <div class="relative" ref="searchRef" id="header-search">
+  <div class="relative mx-5 flex-1" ref="searchRef" id="header-search">
     <input
-      class="p-1 bg-gray-100 w-[200px] focus:w-[350px] text-base indent-1 placeholder:text-sm outline-none transition-all border"
+      class="p-1 bg-gray-100/60 w-full sm:w-full md:w-[300px] text-base indent-1 placeholder:text-sm outline-none transition-all border"
       v-model="state.searchValue"
       placeholder="搜索..."
       @input="onSearch"
-      @focus="state.showSearchList = true"
+      @focus="state.showList = true"
     />
     <ul
       ref="searchScrollRef"
       class="hidden scroll1 absolute w-full max-h-[300px] overflow-auto bg-white shadow-2xl mt-1"
-      :class="{ '!block': state.showSearchList }"
+      :class="{ '!block': state.showList }"
     >
       <li
-        @click.prevent="router.push(item.path)"
+        @click.prevent="
+          () => {
+            state.showList = false
+            router.push(item.path)
+          }
+        "
         class="hover:bg-[#ebeef5] px-3 py-1.5 border-b-[1px] cursor-pointer text-base"
         :class="{
           focus: state.selectIndex == index,
@@ -28,7 +33,7 @@
               '!bg-red-400': index == 1,
               '!bg-red-300': index == 2,
             }"
-            class="flex w-[20px] h-[20px] mr-2 bg-gray-500 items-center justify-center text-white text-sm"
+            class="flex w-5 h-5 mr-2 bg-gray-500 items-center justify-center text-white text-sm"
           >
             {{ index + 1 }}
           </span>
@@ -49,7 +54,7 @@ const router = useRouter()
 const searchRef = ref<HTMLDivElement>()
 const searchScrollRef = ref<HTMLElement>()
 onClickOutside(searchRef, () => {
-  state.showSearchList = false
+  state.showList = false
   state.selectIndex = 0
   state.searchValue = ''
   state.searchList = searchList
@@ -57,7 +62,7 @@ onClickOutside(searchRef, () => {
 
 const state = reactive({
   searchList: searchList,
-  showSearchList: false,
+  showList: false,
   searchValue: '',
   selectIndex: 0,
 })
@@ -73,7 +78,7 @@ const onSearch = () => {
 }
 
 useKeyDown((e) => {
-  if ((e.key == 'ArrowDown' || e.key == 'ArrowUp' || e.key == 'Enter') && state.showSearchList) {
+  if ((e.key == 'ArrowDown' || e.key == 'ArrowUp' || e.key == 'Enter') && state.showList) {
     e.preventDefault()
     if (e.key == 'ArrowDown') {
       state.selectIndex += 1

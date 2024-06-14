@@ -4,7 +4,7 @@
     <section
       id="site-name"
       @click="$router.push('dashboard')"
-      class="h-full mx-5 text-3xl font-semibold whitespace-nowrap"
+      class="h-full ml-5 text-3xl font-semibold whitespace-nowrap hidden sm:block"
     >
       <div
         class="h-full flex items-center justify-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"
@@ -14,11 +14,11 @@
     </section>
     <!-- logo end-->
 
-    <section class="w-full pr-5 flex items-center justify-between font-semibold">
+    <section class="w-full flex items-center justify-between font-semibold">
       <!-- Search -->
       <Search />
       <!-- Search end -->
-      <div class="flex gap-5 items-center">
+      <div class="gap-5 items-center hidden md:flex mr-5">
         <a href="https://github.com/hang-bro/nest-with-client" target="_blank">
           <GithubOne theme="outline" size="22" fill="#333" />
         </a>

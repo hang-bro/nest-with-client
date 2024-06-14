@@ -143,11 +143,11 @@
       </div>
     </section>
 
-    <!-- touchDirection-->
+    <!-- touch-->
     <section>
       <div class="directive-item">
-        <el-check-tag size="large" checked>v-touchDirection</el-check-tag>
-        <el-button link @click="showSourceCode('/src/directives/module/touchDirection.ts')"
+        <el-check-tag size="large" checked>v-touch</el-check-tag>
+        <el-button link @click="showSourceCode('/src/directives/module/touch.ts')"
           >查看源码</el-button
         >
       </div>
@@ -155,7 +155,7 @@
         class="p-4 bg-gray-50 mt-3 border border-dashed border-gray-400/40 rounded"
         v-resize="handleResize"
       >
-        <div class="preview w-full h-[200px]" v-touchDirection="fn">
+        <div class="preview w-full h-[200px]" v-touch="fn">
           在此区域滑动(修改浏览器标识为移动端才可观察)
         </div>
       </div>
