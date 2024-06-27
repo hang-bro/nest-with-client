@@ -1,11 +1,10 @@
 <template>
   <main class="w-full h-full">
-    <a href="https://cssloaders.github.io/" target="_blank">https://cssloaders.github.io/</a>
+    <el-link href="https://cssloaders.github.io/" target="_blank">https://cssloaders.github.io/</el-link>
     <section class="w-full flex flex-wrap">
       <div class="loading-item" v-for="item in data">
         <component :is="item.name" />
       </div>
-      
     </section>
   </main>
 </template>
@@ -15,6 +14,6 @@ const data = await loading()
 </script>
 <style lang="scss" scoped>
 .loading-item {
-  @apply h-[300px] w-1/3 p-1 cursor-pointer;
+  @apply h-[300px] w-1/3 max-w-full p-1 cursor-pointer;
 }
 </style>

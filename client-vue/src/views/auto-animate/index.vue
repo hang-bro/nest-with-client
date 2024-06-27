@@ -39,7 +39,7 @@ const randomize3 = () => numbers3.value.sort(() => (Math.random() > 0.5 ? 1 : -1
 </script>
 
 <template>
-  <main class="w-full h-full  overflow-auto">
+  <main class="w-full h-full overflow-auto">
     <section>
       <h1 class="font-bold text-2xl m-2">示例一</h1>
       <div class="flex items-center flex-wrap" v-auto-animate="{ duration: 500 }">
@@ -47,7 +47,8 @@ const randomize3 = () => numbers3.value.sort(() => (Math.random() > 0.5 ? 1 : -1
           class="border-success border w-[10%] m-[5px] aspect-square flex items-center justify-center"
           v-for="number in numbers"
           :key="number"
-          v-text="number" />
+          v-text="number"
+        />
       </div>
       <el-button class="t" @click="randomize">Randomize</el-button>
     </section>
@@ -71,7 +72,8 @@ const randomize3 = () => numbers3.value.sort(() => (Math.random() > 0.5 ? 1 : -1
           class="box1 cursor-pointer m-3 flex items-center justify-center text-gray-400"
           v-for="number in numbers3"
           :key="number"
-          v-text="number" />
+          v-text="number"
+        />
       </div>
       <el-button class="t" @click="randomize3">Randomize</el-button>
     </section>
